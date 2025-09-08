@@ -1,5 +1,6 @@
 package main;
 
+import Tiles.TileManager;
 import entity.Player;
 import org.w3c.dom.ls.LSOutput;
 
@@ -12,15 +13,15 @@ public class gamePanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public int tileSize = originalTileSize * scale; // escala a 48x48
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixeles
-    final int screenHeight = tileSize * maxScreenRow; //576 pixeles
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixeles
+    public final int screenHeight = tileSize * maxScreenRow; //576 pixeles
 
     // FPS
     int FPS = 60;
 
-
+    TileManager tileM = new TileManager(this);
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
@@ -87,7 +88,8 @@ public class gamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 =(Graphics2D)g;
-
+        //Llamamos primero a las tiles y después al player, para priorizar la "capa" Tiles
+        tileM.draw(g2);
         //Llamamos el metodo draw del objeto player
         player.draw(g2);
 
