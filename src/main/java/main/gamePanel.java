@@ -1,5 +1,7 @@
 package main;
 
+import Tiles.TileManager;
+import entity.Player;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.JPanel;
@@ -10,19 +12,28 @@ public class gamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16; // Tamaño de pixeles para los personajes y objetos(?
     final int scale = 3;
 
-    final int tileSize = originalTileSize * scale; // escala a 48x48
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixeles
-    final int screenHeight = tileSize * maxScreenRow; //576 pixeles
+    public int tileSize = originalTileSize * scale; // escala a 48x48
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixeles
+    public final int screenHeight = tileSize * maxScreenRow; //576 pixeles
+
+    // configuraciones del mundo
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight= tileSize * maxWorldRow;
+
 
     // FPS
     int FPS = 60;
 
-
+    TileManager tileM = new TileManager(this);
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+    public CollisionChecker cChecker = new CollisionChecker(this);
+    public Player player =new Player(this, keyH);
 
     int playerX = 100;
     int playerY = 100;
@@ -74,28 +85,22 @@ public class gamePanel extends JPanel implements Runnable {
         }
 
     }
+
     public void update() {
-        if(keyH.upPressed == true) {
-            playerY -= playerSpeed;
-        }
-        else if(keyH.downPressed == true) {
-            playerY += playerSpeed;
-        }
-        else if(keyH.leftPressed == true) {
-            playerX -= playerSpeed;
-        }
-        else if(keyH.rightPressed == true) {
-            playerX += playerSpeed;
-        }
+
+        //Llamamos el metodo update del objeto player
+        player.update();
     }
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
         Graphics2D g2 =(Graphics2D)g;
+        //Llamamos primero a las tiles y después al player, para priorizar la "capa" Tiles
+        tileM.draw(g2);
+        //Llamamos el metodo draw del objeto player
+        player.draw(g2);
 
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
         g2.dispose();
 
     }
