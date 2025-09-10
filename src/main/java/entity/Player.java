@@ -12,12 +12,15 @@ public class Player extends Entity{
     gamePanel gp;
     KeyHandler keyH;
 
+
     public final int screenX;
     public final int screenY;
+
 
     public Player (gamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
@@ -29,19 +32,23 @@ public class Player extends Entity{
         solidArea.height = 32;
 
 
+
         setDefaultValues() ;
         getPlayersImage();
     }
     public void setDefaultValues() {
 
+
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
         speed = 4;
         direction = "Abajo";
+
     }
     //Metodo para usar las imagenes
     public void getPlayersImage(){
         try{
+
 
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/arriba.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/player/arriba2.png"));
@@ -51,6 +58,7 @@ public class Player extends Entity{
             left2 = ImageIO.read(getClass().getResourceAsStream("/player/izquierda2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/player/derecha.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/player/derecha2.png"));
+
 
         }catch(IOException e) {
             e.printStackTrace();
@@ -64,6 +72,7 @@ public class Player extends Entity{
                 keyH.rightPressed == true ){
             if(keyH.upPressed == true) {
                 direction = "Arriba";
+
             }
             else if(keyH.downPressed == true) {
                 direction = "Abajo";
@@ -88,6 +97,7 @@ public class Player extends Entity{
                 }
 
             }
+
 
             spriteCounter++;
             if(spriteCounter>10) {
@@ -137,6 +147,8 @@ public class Player extends Entity{
                 }
                 break;
         }
+
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
     }
 }
