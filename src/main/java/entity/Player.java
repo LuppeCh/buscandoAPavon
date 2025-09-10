@@ -12,32 +12,53 @@ public class Player extends Entity{
     gamePanel gp;
     KeyHandler keyH;
 
+
+    public final int screenX;
+    public final int screenY;
+
+
     public Player (gamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
+
+
 
         setDefaultValues() ;
         getPlayersImage();
     }
     public void setDefaultValues() {
 
-        x = 100;
-        y = 100;
+
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
         speed = 4;
-        direction = "right";
+        direction = "Abajo";
+
     }
     //Metodo para usar las imagenes
     public void getPlayersImage(){
         try{
 
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
+
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/arriba.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/arriba2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/pixil-frame-0 (1).png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/pixil-frame-0.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/izquierda.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/izquierda2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/derecha.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/derecha2.png"));
+
 
         }catch(IOException e) {
             e.printStackTrace();
@@ -51,20 +72,33 @@ public class Player extends Entity{
                 keyH.rightPressed == true ){
             if(keyH.upPressed == true) {
                 direction = "Arriba";
-                y -= speed;
+
             }
             else if(keyH.downPressed == true) {
                 direction = "Abajo";
-                y += speed;
             }
             else if(keyH.leftPressed == true) {
                 direction = "Izquierda";
-                x -= speed;
             }
             else if(keyH.rightPressed == true) {
                 direction = "Derecha";
-                x += speed;
             }
+//check tile collision
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+// si la collision false, el jugador se puede mover
+            if(collisionOn == false) {
+                switch(direction) {
+                    case "Arriba": worldY -= speed; break;
+                    case "Abajo": worldY += speed; break;
+                    case "Izquierda": worldX -= speed; break;
+                    case "Derecha": worldX += speed; break;
+                }
+
+            }
+
+
             spriteCounter++;
             if(spriteCounter>10) {
                 if (spriteNum == 1) {
@@ -113,6 +147,8 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
     }
 }
