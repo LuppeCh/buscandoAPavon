@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Entity{
+public class Player extends Entity {
     gamePanel gp;
     KeyHandler keyH;
 
@@ -17,25 +17,29 @@ public class Player extends Entity{
     public final int screenY;
 
 
-    public Player (gamePanel gp, KeyHandler keyH) {
+    public Player(gamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+
         solidArea.width = 32;
         solidArea.height = 32;
 
 
-
-        setDefaultValues() ;
+        setDefaultValues();
         getPlayersImage();
     }
+
     public void setDefaultValues() {
 
 
@@ -45,9 +49,10 @@ public class Player extends Entity{
         direction = "Abajo";
 
     }
+
     //Metodo para usar las imagenes
-    public void getPlayersImage(){
-        try{
+    public void getPlayersImage() {
+        try {
 
 
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/arriba.png"));
@@ -60,47 +65,58 @@ public class Player extends Entity{
             right2 = ImageIO.read(getClass().getResourceAsStream("/player/derecha2.png"));
 
 
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     //Metodo para mandar los controles del jugador
     public void update() {
-        if(keyH.upPressed == true ||
+        if (keyH.upPressed == true ||
                 keyH.downPressed == true ||
                 keyH.leftPressed == true ||
-                keyH.rightPressed == true ){
-            if(keyH.upPressed == true) {
+                keyH.rightPressed == true) {
+            if (keyH.upPressed == true) {
                 direction = "Arriba";
 
-            }
-            else if(keyH.downPressed == true) {
+            } else if (keyH.downPressed == true) {
                 direction = "Abajo";
-            }
-            else if(keyH.leftPressed == true) {
+            } else if (keyH.leftPressed == true) {
                 direction = "Izquierda";
-            }
-            else if(keyH.rightPressed == true) {
+            } else if (keyH.rightPressed == true) {
                 direction = "Derecha";
             }
 //check tile collision
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+
+            // check colision de objeto
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
 // si la collision false, el jugador se puede mover
-            if(collisionOn == false) {
-                switch(direction) {
-                    case "Arriba": worldY -= speed; break;
-                    case "Abajo": worldY += speed; break;
-                    case "Izquierda": worldX -= speed; break;
-                    case "Derecha": worldX += speed; break;
+            if (collisionOn == false) {
+                switch (direction) {
+                    case "Arriba":
+                        worldY -= speed;
+                        break;
+                    case "Abajo":
+                        worldY += speed;
+                        break;
+                    case "Izquierda":
+                        worldX -= speed;
+                        break;
+                    case "Derecha":
+                        worldX += speed;
+                        break;
                 }
 
             }
 
 
             spriteCounter++;
-            if(spriteCounter>10) {
+            if (spriteCounter > 10) {
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
@@ -110,28 +126,35 @@ public class Player extends Entity{
             }
         }
     }
+
+    public void  pickUpObject( int i){
+        if(i != 999){
+            gp.obj[i] = null;
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
-        switch(direction) {
+        switch (direction) {
             case "Arriba":
-                if(spriteNum ==1) {
+                if (spriteNum == 1) {
                     image = up1;
                 }
-                if (spriteNum == 2){
-                    image =up2;
+                if (spriteNum == 2) {
+                    image = up2;
                 }
                 break;
             case "Abajo":
-                if(spriteNum ==1) {
+                if (spriteNum == 1) {
                     image = down1;
                 }
-                if (spriteNum == 2){
-                    image =down2;
+                if (spriteNum == 2) {
+                    image = down2;
                 }
                 break;
             case "Izquierda":
-                if(spriteNum ==1) {
+                if (spriteNum == 1) {
                     image = left1;
                 }
                 if (spriteNum == 2) {
@@ -139,11 +162,11 @@ public class Player extends Entity{
                 }
                 break;
             case "Derecha":
-                if(spriteNum ==1) {
+                if (spriteNum == 1) {
                     image = right1;
                 }
-                if (spriteNum == 2){
-                    image =right2;
+                if (spriteNum == 2) {
+                    image = right2;
                 }
                 break;
         }
