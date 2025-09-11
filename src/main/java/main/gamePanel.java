@@ -2,6 +2,7 @@ package main;
 
 import Tiles.TileManager;
 import entity.Player;
+import object.SuperObject;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.JPanel;
@@ -36,7 +37,13 @@ public class gamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     public CollisionChecker cChecker = new CollisionChecker(this);
+
+    public AssetSetter aSetter = new AssetSetter(this);
+
     public Player player =new Player(this, keyH);
+
+    // creamos un array que va a tener 10 espacios para objetos, esto se puede modificar a medida de ser necesario
+    public SuperObject obj[] = new SuperObject[10];
 
 
     int playerX = 100;
@@ -50,6 +57,11 @@ public class gamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame(){
+
+        aSetter.setObject();
     }
 
     public void startGameThread() {
@@ -95,13 +107,24 @@ public class gamePanel extends JPanel implements Runnable {
         //Llamamos el metodo update del objeto player
         player.update();
     }
+
+
+
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
         Graphics2D g2 =(Graphics2D)g;
         //Llamamos primero a las tiles y después al player, para priorizar la "capa" Tiles
+
         tileM.draw(g2);
+
+        for (int i =0; i < obj.length; i++){
+            if(obj[i] != null){
+                obj[i].draw(g2, this);
+            }
+        }
+
         //Llamamos el metodo draw del objeto player
         player.draw(g2);
 
