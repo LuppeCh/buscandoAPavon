@@ -64,6 +64,9 @@ public class Player extends Entity {
     }
 
     public void update() {
+        if(gp.ui.gameFinished || gp.ui.gameOver){
+            return;
+        }
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) direction = "Arriba";
             else if (keyH.downPressed) direction = "Abajo";

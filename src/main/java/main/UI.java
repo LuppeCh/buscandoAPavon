@@ -22,13 +22,25 @@ public class UI {
 
     // Tiempo de juego
     double playTime;
-    DecimalFormat dFormat = new DecimalFormat("#0.00");
+
+    // Tiempo
+    long startTime = System.nanoTime();
+
+    //Llamar a derrota
+
+    public boolean gameOver = false;
+
+
 
     public UI(gamePanel gp) {
         this.gp = gp;
 
         arial_40 = new Font("Arial", Font.PLAIN, 20);
         arial_80B = new Font("Arial", Font.BOLD, 40); // fuente más grande para victoria
+
+        // Tiempo juego minutos
+        long startTime = System.nanoTime();
+
     }
 
     // Mostrar mensaje temporal
@@ -50,9 +62,26 @@ public class UI {
         g2.drawString("Pan de Ajo: " + gp.player.panDeAjoCount, 25, 70);
         g2.drawString("Vale por comida: " + gp.player.valePorComidaCount, 25, 90);
 
-        // Mostrar tiempo de juego
-        playTime += 1.0 / 60;
-        g2.drawString("Time: " + dFormat.format(playTime), gp.tileSize * 11, 65);
+        // Tiempo de juego
+        if(!gameFinished && !gameOver){
+            long now = System.nanoTime();
+            long elapsedNanos = now - startTime;
+            playTime = elapsedNanos / 1_000_000;
+        }
+        int minutos = (int) (playTime / 1000)/60;
+        int segundos = (int) (playTime / 1000)%60;
+        int milisegundos = (int) (playTime % 1000);
+
+
+
+        String tiempoTexto = String.format("%2d:%2d:%03d", minutos, segundos, milisegundos);
+        g2.drawString("Time: " + tiempoTexto, gp.tileSize * 12, 65);
+
+        // Condicion de perdida
+        if(playTime >=10000){
+            gameOver =true;
+
+        }
 
         // -------------------
         // Mensaje temporal
@@ -88,12 +117,41 @@ public class UI {
             y = gp.screenHeight / 2 - (gp.tileSize * 3);
             g2.drawString(text, x, y);
 
-            text = "Your Time is: " + dFormat.format(playTime);
+            text = "Tu tiempo es: " + tiempoTexto;
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gp.screenWidth / 2 - textLength / 2;
             y = gp.screenHeight / 2 - (gp.tileSize * 4);
             g2.drawString(text, x, y);
 
+            // NO detener el gameThread automáticamente
+        }
+        // -------------------
+        // Mensaje de derrota
+        // -------------------
+        if (gameOver) {
+            g2.setColor(Color.black);
+            g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+
+            g2.setFont(arial_80B);
+            g2.setColor(Color.RED);
+
+            String text = "Que malo, has perdido!!!";
+            int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            int x = gp.screenWidth / 2 - textLength / 2;
+            int y = gp.screenHeight / 2;
+            g2.drawString(text, x, y);
+
+            text = "No has encontrado a Peivon!!";
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gp.screenWidth / 2 - textLength / 2;
+            y = gp.screenHeight / 2 - (gp.tileSize * 3);
+            g2.drawString(text, x, y);
+
+            text = "Pasaron los: " +tiempoTexto;
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gp.screenWidth / 2 - textLength / 2;
+            y = gp.screenHeight / 2 - (gp.tileSize * 4);
+            g2.drawString(text, x, y);
             // NO detener el gameThread automáticamente
         }
     }
