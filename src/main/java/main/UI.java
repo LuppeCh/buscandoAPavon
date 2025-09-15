@@ -3,6 +3,7 @@ package main;
 import object.OBJ_gpsNave;
 import object.OBJ_panDeAjo;
 import object.OBJ_valePorComida;
+import reloj.Reloj;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -21,10 +22,8 @@ public class UI {
     public boolean gameFinished = false;
 
     // Tiempo de juego
-    double playTime;
+    Reloj reloj = new Reloj(this);
 
-    // Tiempo
-    long startTime = System.nanoTime();
 
     //Llamar a derrota
 
@@ -50,7 +49,6 @@ public class UI {
     }
 
     public void draw(Graphics2D g2) {
-
         // -------------------
         // HUD siempre visible
         // -------------------
@@ -62,26 +60,18 @@ public class UI {
         g2.drawString("Pan de Ajo: " + gp.player.panDeAjoCount, 25, 70);
         g2.drawString("Vale por comida: " + gp.player.valePorComidaCount, 25, 90);
 
-        // Tiempo de juego
-        if(!gameFinished && !gameOver){
-            long now = System.nanoTime();
-            long elapsedNanos = now - startTime;
-            playTime = elapsedNanos / 1_000_000;
-        }
-        int minutos = (int) (playTime / 1000)/60;
-        int segundos = (int) (playTime / 1000)%60;
-        int milisegundos = (int) (playTime % 1000);
+
+        //Llamamos los tiempos del juego
+        reloj.actualizarTiempo();
+        int min = reloj.getMinutos();
+        int seg = reloj.getSegundos();
+        int ms = reloj.getMilisegundos();
 
 
-
-        String tiempoTexto = String.format("%2d:%2d:%03d", minutos, segundos, milisegundos);
+        String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
         g2.drawString("Time: " + tiempoTexto, gp.tileSize * 12, 65);
 
-        // Condicion de perdida
-        if(playTime >=200000){
-            gameOver =true;
 
-        }
 
         // -------------------
         // Mensaje temporal
@@ -125,6 +115,14 @@ public class UI {
 
             // NO detener el gameThread automáticamente
         }
+
+        //--------------------
+        // Condicion de perdida
+        // -------------------
+        if(min >=15){ //cambiar segun el tiempo querido (en caso de querer ver en segundos, cambiar la variable min a seg)
+            gameOver =true;
+        }
+
         // -------------------
         // Mensaje de derrota
         // -------------------
