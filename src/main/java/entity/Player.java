@@ -1,5 +1,6 @@
 package entity;
 
+import main.UtilityTool;
 import main.gamePanel;
 import main.KeyHandler;
 
@@ -49,18 +50,29 @@ public class Player extends Entity {
     }
 
     public void getPlayersImage() {
+
+        up1 = setup("arriba");
+        up2 = setup("arriba2");
+        down1 = setup("pixil-frame-0 (1)");
+        down2 = setup("pixil-frame-0");
+        left1 = setup("izquierda");
+        left2 = setup("izquierda2");
+        right1 = setup("derecha");
+        right2 = setup("derecha2");
+
+    }
+
+    BufferedImage setup(String imageName) {
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage Image = null;
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/arriba.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/arriba2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/pixil-frame-0 (1).png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/pixil-frame-0.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/izquierda.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/izquierda2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/derecha.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/derecha2.png"));
+            Image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+            Image = uTool.scaleImage(Image, gp.tileSize, gp.tileSize);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return Image;
     }
 
     public void update() {
@@ -141,7 +153,7 @@ public class Player extends Entity {
             case "Izquierda" -> image = (spriteNum == 1) ? left1 : left2;
             case "Derecha" -> image = (spriteNum == 1) ? right1 : right2;
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }
 

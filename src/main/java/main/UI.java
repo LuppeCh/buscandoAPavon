@@ -78,7 +78,7 @@ public class UI {
         g2.drawString("Time: " + tiempoTexto, gp.tileSize * 12, 65);
 
         // Condicion de perdida
-        if(playTime >=10000){
+        if(playTime >=200000){
             gameOver =true;
 
         }
