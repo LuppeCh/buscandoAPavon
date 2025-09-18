@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class Player extends Entity {
 
-    gamePanel gp;
+   // gamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
@@ -23,7 +23,8 @@ public class Player extends Entity {
     public int valePorComidaCount = 0;
 
     public Player(gamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
+        //this.gp = gp;
         this.keyH = keyH;
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
@@ -51,29 +52,28 @@ public class Player extends Entity {
 
     public void getPlayersImage() {
 
-        up1 = setup("arriba");
-        up2 = setup("arriba2");
-        down1 = setup("pixil-frame-0 (1)");
-        down2 = setup("pixil-frame-0");
-        left1 = setup("izquierda");
-        left2 = setup("izquierda2");
-        right1 = setup("derecha");
-        right2 = setup("derecha2");
-
+        up1 = setup("/player/arriba");
+        up2 = setup("/player/arriba2");
+        down1 = setup("/player/abajo");
+        down2 = setup("/player/abajo2");
+        left1 = setup("/player/izquierda");
+        left2 = setup("/player/izquierda2");
+        right1 = setup("/player/derecha");
+        right2 = setup("/player/derecha2");
     }
 
-    BufferedImage setup(String imageName) {
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage Image = null;
-        try {
-            Image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
-            Image = uTool.scaleImage(Image, gp.tileSize, gp.tileSize);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Image;
-    }
+//    BufferedImage setup(String imageName) {
+//        UtilityTool uTool = new UtilityTool();
+//        BufferedImage Image = null;
+//        try {
+//            Image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+//            Image = uTool.scaleImage(Image, gp.tileSize, gp.tileSize);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return Image;
+//    }
 
     public void update() {
         if(gp.ui.gameFinished || gp.ui.gameOver){

@@ -1,6 +1,7 @@
 package main;
 
 import Tiles.TileManager;
+import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 import org.w3c.dom.ls.LSOutput;
@@ -45,6 +46,8 @@ public class gamePanel extends JPanel implements Runnable {
     // creamos un array que va a tener 10 espacios para objetos, esto se puede modificar a medida de ser necesario
     public SuperObject obj[] = new SuperObject[10];
 
+    //NPC
+    public Entity npc[] =new Entity[10];
 
     int playerX = 100;
     int playerY = 100;
@@ -62,7 +65,7 @@ public class gamePanel extends JPanel implements Runnable {
     public void setupGame(){
 
         aSetter.setObject();
-
+        aSetter.setNPC();
         playMusic(0);
     }
 
@@ -133,7 +136,6 @@ public class gamePanel extends JPanel implements Runnable {
             g2.setColor(Color.white);
             g2.drawString("Draw time: " + passed, 10, 400);
             System.out.println("Draw time: " + passed);
-
         }
 
 
@@ -143,6 +145,10 @@ public class gamePanel extends JPanel implements Runnable {
                 obj[i].draw(g2, this);
             }
         }
+
+        // NPC
+        
+
 
         //Llamamos el metodo draw del objeto player
         player.draw(g2);
