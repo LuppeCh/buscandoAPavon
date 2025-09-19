@@ -5,6 +5,7 @@ import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 import org.w3c.dom.ls.LSOutput;
+import varios.Reloj;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -29,9 +30,11 @@ public class gamePanel extends JPanel implements Runnable {
     // FPS
     int FPS = 60;
 
+    // Reloj
+    private Reloj reloj;
     TileManager tileM = new TileManager(this);
 
-    KeyHandler keyH = new KeyHandler();
+    public KeyHandler keyH = new KeyHandler(this);
     Sonido sonido = new Sonido ();
     Thread gameThread;
 
@@ -47,11 +50,13 @@ public class gamePanel extends JPanel implements Runnable {
     public SuperObject obj[] = new SuperObject[10];
 
     //NPC
-    public Entity npc[] =new Entity[10];
+    public Entity npc[] = new Entity[10];
 
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+    //GAME STATES
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public gamePanel() {
 
@@ -60,6 +65,7 @@ public class gamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.reloj = new Reloj(ui);
     }
 
     public void setupGame(){
@@ -67,6 +73,7 @@ public class gamePanel extends JPanel implements Runnable {
         aSetter.setObject();
         aSetter.setNPC();
         playMusic(0);
+        gameState = playState;
     }
 
     public void startGameThread() {
@@ -108,11 +115,23 @@ public class gamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+        //pausa o reanudacion del juego
+        if(gameState == playState){
+            //Llamamos el metodo update del objeto player
+            player.update();
+            //Llamamos el metodo update del objeto NPC
+            for(int i = 0; i < npc.length; i++) {
+                if(npc[i] != null) {
+                    npc[i].update();
+                }
+            }
 
-        //Llamamos el metodo update del objeto player
-        player.update();
+        }
+        if(gameState == pauseState) {
+            //Nada
+        }
+
     }
-
 
 
     public void paintComponent(Graphics g) {
@@ -138,8 +157,7 @@ public class gamePanel extends JPanel implements Runnable {
             System.out.println("Draw time: " + passed);
         }
 
-
-
+        //Objeto
         for (int i =0; i < obj.length; i++){
             if(obj[i] != null){
                 obj[i].draw(g2, this);
@@ -147,8 +165,11 @@ public class gamePanel extends JPanel implements Runnable {
         }
 
         // NPC
-        
-
+        for (int i =0; i < npc.length; i++){
+            if(npc[i] != null){
+                npc[i].draw(g2);
+            }
+        }
 
         //Llamamos el metodo draw del objeto player
         player.draw(g2);

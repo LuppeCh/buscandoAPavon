@@ -81,9 +81,7 @@ public class TileManager {
             }
             br.close();
 
-
         }   catch(Exception e) {
-
 
         }
     }
@@ -111,15 +109,12 @@ public class TileManager {
                  g2.drawImage(tile[tileNum].Image, screenX, screenY, null);
              }
 
-
              worldCol++;
 
              if (worldCol == gp.maxWorldCol) {
                  worldCol = 0;
 
                  worldRow ++;
-
-
              }
         }
     }
