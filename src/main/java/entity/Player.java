@@ -3,6 +3,7 @@ package entity;
 import main.UtilityTool;
 import main.gamePanel;
 import main.KeyHandler;
+import varios.Direccion;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,9 +12,7 @@ import java.io.IOException;
 
 public class Player extends Entity {
 
-    gamePanel gp;
     KeyHandler keyH;
-
     public final int screenX;
     public final int screenY;
 
@@ -23,7 +22,8 @@ public class Player extends Entity {
     public int valePorComidaCount = 0;
 
     public Player(gamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
+
         this.keyH = keyH;
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
@@ -43,60 +43,53 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = 23 * gp.tileSize; // posicion del Player
+        worldY = 21 * gp.tileSize; // posicion del Player
         speed = 4;
-        direction = "Abajo";
+        direction = Direccion.Abajo;
     }
 
     public void getPlayersImage() {
 
-        up1 = setup("arriba");
-        up2 = setup("arriba2");
-        down1 = setup("pixil-frame-0 (1)");
-        down2 = setup("pixil-frame-0");
-        left1 = setup("izquierda");
-        left2 = setup("izquierda2");
-        right1 = setup("derecha");
-        right2 = setup("derecha2");
-
-    }
-
-    BufferedImage setup(String imageName) {
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage Image = null;
-        try {
-            Image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
-            Image = uTool.scaleImage(Image, gp.tileSize, gp.tileSize);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Image;
+        up1 = setup("/player/arriba");
+        up2 = setup("/player/arriba2");
+        down1 = setup("/player/abajo");
+        down2 = setup("/player/abajo2");
+        left1 = setup("/player/izquierda");
+        left2 = setup("/player/izquierda2");
+        right1 = setup("/player/derecha");
+        right2 = setup("/player/derecha2");
     }
 
     public void update() {
-        if(gp.ui.gameFinished || gp.ui.gameOver){
+        if (gp.ui.gameFinished || gp.ui.gameOver) {
             return;
         }
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            if (keyH.upPressed) direction = "Arriba";
-            else if (keyH.downPressed) direction = "Abajo";
-            else if (keyH.leftPressed) direction = "Izquierda";
-            else if (keyH.rightPressed) direction = "Derecha";
+            if (keyH.upPressed) direction = Direccion.Arriba;
+            else if (keyH.downPressed) direction = Direccion.Abajo;
+            else if (keyH.leftPressed) direction = Direccion.Izquierda;
+            else if (keyH.rightPressed) direction = Direccion.Derecha;
 
+            // corroboramos la colision con el entorno
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            // corroboramos la colision con los objetos
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
+            // corroboramos la colision con NPCs
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
+            //Condicion para colision
             if (!collisionOn) {
                 switch (direction) {
-                    case "Arriba" -> worldY -= speed;
-                    case "Abajo" -> worldY += speed;
-                    case "Izquierda" -> worldX -= speed;
-                    case "Derecha" -> worldX += speed;
+                    case Arriba -> worldY -= speed;
+                    case Abajo -> worldY += speed;
+                    case Izquierda -> worldX -= speed;
+                    case Derecha -> worldX += speed;
                 }
             }
 
@@ -145,13 +138,23 @@ public class Player extends Entity {
         }
     }
 
+    public void interactNPC(int i) {
+        if (i != 999){
+            if(gp.keyH.enterPressed == true){
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
+        }
+        gp.keyH.enterPressed = false;
+    }
+
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "Arriba" -> image = (spriteNum == 1) ? up1 : up2;
-            case "Abajo" -> image = (spriteNum == 1) ? down1 : down2;
-            case "Izquierda" -> image = (spriteNum == 1) ? left1 : left2;
-            case "Derecha" -> image = (spriteNum == 1) ? right1 : right2;
+            case Arriba -> image = (spriteNum == 1) ? up1 : up2;
+            case Abajo -> image = (spriteNum == 1) ? down1 : down2;
+            case Izquierda -> image = (spriteNum == 1) ? left1 : left2;
+            case Derecha -> image = (spriteNum == 1) ? right1 : right2;
         }
         g2.drawImage(image, screenX, screenY, null);
     }

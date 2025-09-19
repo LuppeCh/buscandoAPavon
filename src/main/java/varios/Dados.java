@@ -1,4 +1,4 @@
-package dados;
+package varios;
 
 import java.util.Random;
 

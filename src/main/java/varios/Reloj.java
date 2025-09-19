@@ -1,4 +1,4 @@
-package reloj;
+package varios;
 
 import main.UI;
 
@@ -19,7 +19,8 @@ public class Reloj {
         if (!condicion.gameFinished && !condicion.gameOver){
             long now = System.nanoTime();
             long elapsedNanos = now - startTime;
-            playTime = elapsedNanos / 1_000_000.0;
+            playTime += elapsedNanos / 1_000_000.0;
+            startTime = now;
         }
     }
 
