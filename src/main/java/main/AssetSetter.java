@@ -4,6 +4,7 @@ import entity.NPC_Pavon;
 import object.OBJ_gpsNave;
 import object.OBJ_panDeAjo;
 import object.OBJ_valePorComida;
+import main.gamePanel;
 
 public class AssetSetter {
     gamePanel gp;
@@ -30,5 +31,13 @@ public class AssetSetter {
         gp.npc[0] = new NPC_Pavon(gp); // se crea el npc
         gp.npc[0].worldX = 24 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
         gp.npc[0].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+
+        gp.npc[1] = new NPC_Pavon(gp); // se crea el npc
+        gp.npc[1].worldX = 22 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+        gp.npc[1].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+
+        gp.npc[2] = new NPC_Pavon(gp); // se crea el npc
+        gp.npc[2].worldX = 26 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+        gp.npc[2].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
     }
 }

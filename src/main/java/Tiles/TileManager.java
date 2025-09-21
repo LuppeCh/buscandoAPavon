@@ -5,7 +5,6 @@ import main.gamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +42,11 @@ public class TileManager {
         UtilityTool uTool = new UtilityTool();
         try{
             tile[index] = new Tile();
+
+            InputStream is = getClass().getResourceAsStream("/Tiles/" + imageName + ".png");
+            System.out.println("Cargando: " + imageName + " -> " + is);
+            tile[index].Image = ImageIO.read(is);
+
             tile[index].Image = ImageIO.read(getClass().getResourceAsStream("/Tiles/" + imageName +".png"));
             tile[index].Image = uTool.scaleImage(tile[index].Image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
