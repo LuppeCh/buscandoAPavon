@@ -26,6 +26,10 @@ public class gamePanel extends JPanel implements Runnable {
         public final int maxWorldCol = 50;
         public final int maxWorldRow = 50;
 
+        //
+        public final int maxMap =10;
+        public int currentMap = 0;
+
         // FPS
         int FPS = 60;
 
@@ -43,8 +47,9 @@ public class gamePanel extends JPanel implements Runnable {
 
         // ENTITY AND OBJECT
         public Player player = new Player(this, keyH);
-        public Entity obj[] = new Entity[10];   // objetos
-        public Entity npc[] = new Entity[10];   // npcs
+        public EventHandler eHandler = new EventHandler(this);
+        public Entity obj[][] = new Entity[maxMap][10];   // objetos
+        public Entity npc[][] = new Entity[maxMap][10];   // npcs
 
         ArrayList<Entity> entityList = new ArrayList<>();
 
@@ -105,9 +110,9 @@ public class gamePanel extends JPanel implements Runnable {
             if (gameState == playState) {
                 player.update();
 
-                for (int i = 0; i < npc.length; i++) {
-                    if (npc[i] != null) {
-                        npc[i].update();
+                for (int i = 0; i < npc[1].length; i++) {
+                    if (npc[currentMap][i] != null) {
+                        npc[currentMap][i].update();
                     }
                 }
             }
@@ -130,12 +135,16 @@ public class gamePanel extends JPanel implements Runnable {
             // add entities
             entityList.add(player);
 
-            for (Entity n : npc) {
-                if (n != null) entityList.add(n);
+            for (Entity[] row : npc) {
+                for (Entity n : row) {
+                    if (n != null) entityList.add(n);
+                }
             }
 
-            for (Entity o : obj) {
-                if (o != null) entityList.add(o);
+            for (Entity[] row : obj) {
+                for (Entity o : row) {
+                    if (o != null) entityList.add(o);
+                }
             }
 
             // SORT

@@ -40,8 +40,11 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = 23 * gp.tileSize; // posicion del Player
-        worldY = 21 * gp.tileSize; // posicion del Player
+        // worldX = 12 * gp.tileSize; // posicion del Player
+        // worldY = 13 * gp.tileSize;
+        worldX = 23 * gp.tileSize; //posicion del Player
+        worldY = 21 * gp.tileSize;
+
         speed = 4;
         direction = Direccion.Abajo;
     }
@@ -75,6 +78,10 @@ public class Player extends Entity {
             // corroboramos la colision con los objetos
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
+            gp.keyH.enterPressed = false;
+
+            // corroboramos colision evento
+            gp.eHandler.checkEvent();
 
             // corroboramos la colision con NPCs
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
@@ -102,26 +109,26 @@ public class Player extends Entity {
     public void pickUpObject(int i) {
         if (i != 999 && gp.obj[i] != null) {
 
-            String objectName = gp.obj[i].name.toLowerCase().trim();
+            String objectName = gp.obj[gp.currentMap][i].name.toLowerCase().trim();
             System.out.println("Objeto detectado: " + objectName);
 
             if (objectName.contains("gps")) {
                 gpsCount++;
-                gp.obj[i] = null;
+                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 gp.ui.showMessage("Tienes el GPS de la nave!!");
                 System.out.println("GPS: " + gpsCount);
 
             } else if (objectName.contains("pan de ajo")) {
                 panDeAjoCount++;
-                gp.obj[i] = null;
+                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 gp.ui.showMessage("Tienes el pan de ajo!!");
                 System.out.println("Pan de Ajo: " + panDeAjoCount);
 
             } else if (objectName.contains("vale por comida")) {
                 valePorComidaCount++;
-                gp.obj[i] = null;
+                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 speed += 1;
                 gp.ui.showMessage("Tienes el vale por comida!!");
@@ -139,10 +146,10 @@ public class Player extends Entity {
         if (i != 999){
             if(gp.keyH.enterPressed == true){
                 gp.gameState = gp.dialogueState;
-                gp.npc[i].speak();
+                gp.npc[gp.currentMap][i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
+
     }
 
     public void draw(Graphics2D g2) {

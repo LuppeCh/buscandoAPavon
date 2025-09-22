@@ -117,7 +117,7 @@ public class UI {
         //--------------------
         // Condicion de perdida
         // -------------------
-        if(seg >=15){ //cambiar segun el tiempo querido (en caso de querer ver en segundos, cambiar la variable min a seg)
+        if(min >=25){ //cambiar segun el tiempo querido (en caso de querer ver en segundos, cambiar la variable min a seg)
             gameOver =true;
         }
 
