@@ -3,12 +3,15 @@ package entity;
 import main.UtilityTool;
 import main.gamePanel;
 import main.KeyHandler;
+import object.OBJ_sube;
 import varios.Direccion;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
@@ -20,6 +23,11 @@ public class Player extends Entity {
     public int gpsCount = 0;
     public int panDeAjoCount = 0;
     public int valePorComidaCount = 0;
+
+    //inventario
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
+
 
     public Player(gamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -40,15 +48,20 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayersImage();
+        setItems();
     }
 
     public void setDefaultValues() {
-        worldX = 23 * gp.tileSize; // posicion del Player
-        worldY = 21 * gp.tileSize; // posicion del Player
+        worldX = 3 * gp.tileSize; // posicion del Player
+        worldY = 17 * gp.tileSize; // posicion del Player
         speed = 4;
         direction = Direccion.Abajo;
     }
 
+    public void setItems() {
+        //cargar el listado de los items iniciales
+       // inventory.add(new OBJ_sube(gp));
+    }
     public void getPlayersImage() {
 
         up1 = setup("/player/arriba");
@@ -62,6 +75,7 @@ public class Player extends Entity {
     }
 
     public void update() {
+
         if (gp.ui.gameFinished || gp.ui.gameOver) {
             return;
         }
@@ -82,6 +96,11 @@ public class Player extends Entity {
             // corroboramos la colision con NPCs
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
+
+            // corroboramos colision evento
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
 
             //Condicion para colision
             if (!collisionOn) {
@@ -145,7 +164,6 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {
