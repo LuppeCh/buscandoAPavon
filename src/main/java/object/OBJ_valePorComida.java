@@ -13,6 +13,8 @@ public class OBJ_valePorComida extends SuperObject{
     public OBJ_valePorComida(gamePanel gp) {
         this.gp = gp;
         name = "Vale por comida";
+
+        // descripcion = "[" + name + "] \nCupon intercambiable con el vendedor del mercado"
         try{
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Objects/valeComida.png")));
             uTool.scaleImage (image, gp.tileSize, gp.tileSize);
