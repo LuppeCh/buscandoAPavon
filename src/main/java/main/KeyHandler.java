@@ -36,7 +36,7 @@ public class KeyHandler implements KeyListener{
             if(code == KeyEvent.VK_D) {
                 rightPressed = true;
             }
-            if(code == KeyEvent.VK_ENTER) {
+            if(code == KeyEvent.VK_ENTER) { // para el VK_R switch(gp.currentMap) - minuto 10 del video de mapas
                 enterPressed = true;
             }
 
