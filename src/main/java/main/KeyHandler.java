@@ -2,6 +2,7 @@ package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class KeyHandler implements KeyListener{
 
@@ -21,44 +22,135 @@ public class KeyHandler implements KeyListener{
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        //titleState
+        if(gp.gameState == gp.titleState) {
+            //llamamos el metodo titleState
+            titleState(code);
+        }
         //playState
         if(gp.gameState == gp.playState){
-
-            if(code == KeyEvent.VK_W) {
-                upPressed = true;
-            }
-            if(code == KeyEvent.VK_S) {
-                downPressed = true;
-            }
-            if(code == KeyEvent.VK_A) {
-                leftPressed = true;
-            }
-            if(code == KeyEvent.VK_D) {
-                rightPressed = true;
-            }
-            if(code == KeyEvent.VK_ENTER) {
-                enterPressed = true;
-            }
-
-            // DEBUG.
-            if(code == KeyEvent.VK_T) {
-                if (checkDrawTime == false) {
-                    checkDrawTime = true;
-                }
-                else if(checkDrawTime == true){
-                    checkDrawTime = false;
-                }
-            }
+            //llamamos el metodo playState
+            playState(code);
         }
+
         // dialogueState
         else if(gp.gameState == gp.dialogueState) {
-            if(code == KeyEvent.VK_ENTER) {
-                gp.gameState = gp.playState;
-            }
+            //llamamos el metodo dialogueState
+            dialogueState(code);
         }
 
+        // gameOverState
+        else if(gp.gameState == gp.gameOverState) {
+            //llamamos el metodo gameOverState
+            gameOverState(code);
+        }
+
+        // characterState
+        else if(gp.gameState == gp.characterState) {
+            //llamamos el metodo characterState
+            characterState(code);
+        }
+    }
+
+    //Carga de las funciones de game state
+    public void titleState(int code) {
 
     }
+    public void playState(int code) {
+
+        if(code == KeyEvent.VK_W) {
+            upPressed = true;
+        }
+        if(code == KeyEvent.VK_S) {
+            downPressed = true;
+        }
+        if(code == KeyEvent.VK_A) {
+            leftPressed = true;
+        }
+        if(code == KeyEvent.VK_D) {
+            rightPressed = true;
+        }
+        if(code == KeyEvent.VK_C) {
+            gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+
+        // DEBUG.
+        if(code == KeyEvent.VK_T) {
+            if (checkDrawTime == false) {
+                checkDrawTime = true;
+            }
+            else if(checkDrawTime == true){
+                checkDrawTime = false;
+            }
+        }
+    }
+    public void characterState(int code) {
+        if(code == KeyEvent.VK_C) {
+            gp.gameState = gp.playState;
+        }
+        if(gp.ui.slotRow != 0){
+            if(code == KeyEvent.VK_W) {
+                gp.ui.slotRow--;
+                gp.playSE(5);
+            }
+        }
+        if(gp.ui.slotCol != 0){
+            if(code == KeyEvent.VK_A) {
+                gp.ui.slotCol--;
+                gp.playSE(5);
+            }
+        }
+        if(gp.ui.slotRow != 3){
+            if(code == KeyEvent.VK_S) {
+                gp.ui.slotRow++;
+                gp.playSE(5);
+            }
+        }
+        if(gp.ui.slotCol != 4){
+            if(code == KeyEvent.VK_D) {
+                gp.ui.slotCol++;
+                gp.playSE(5);
+            }
+        }
+    }
+    public void dialogueState(int code) {
+
+        if(code == KeyEvent.VK_ENTER) {
+            gp.gameState = gp.playState;
+        }
+    }
+
+    public void gameOverState(int code){
+
+//        if(code == KeyEvent.VK_W){
+//            gp.ui.commandNum--;
+//            if(gp.ui.commandNum < 0) {
+//                gp.ui.commandNum = 1;
+//            }
+//            gp.playSe(4);
+//        }
+//        if(code == KeyEvent.VK_S){
+//            gp.ui.commandNum++;
+//            if(gp.ui.commandNum > 1) {
+//                gp.ui.commandNum = 0;
+//            }
+//            gp.playSe(4);
+//        }
+//        if(code == KeyEvent.VK_ENTER){
+//            if(gp.ui.commandNum == 0) {
+//                gp.gameState = gp.playState;
+//                gp.volverAJugar();
+//            }
+//            else if(gp.ui.commandNum == 1) {
+//                gp.gameState = gp.titleState;
+//                gp.volverAJugar(); nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
+//            }
+//        }
+    }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
