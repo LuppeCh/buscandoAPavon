@@ -135,15 +135,14 @@ public class CollisionChecker {
     // Colision entre NPC / player
     public int checkEntity(Entity entity, Entity[][] target) {
         int index = 999;
-        for (int i = 0; i < target[1].length; i++) {
-            if (target[gp.currentMap][i] != null) {
-                // conseguimos el area de la posicion de la entidad
-                entity.solidArea.x = entity.worldX + entity.solidArea.x;
-                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+        for (int i = 0; i < target[gp.currentMap].length; i++) {
+            if (target[gp.currentMap][i] != null  && target[gp.currentMap][i] != entity) {
 
-                // conseguimos el area de la posicion del objeto
-                target[gp.currentMap][i].solidArea.x = target[gp.currentMap][i].worldX + target[gp.currentMap][i].solidArea.x;
-                target[gp.currentMap][i].solidArea.y = target[gp.currentMap][i].worldY + target[gp.currentMap][i].solidArea.y;
+                // Recalcular posiciones absolutas para colisión
+                entity.solidArea.x = entity.worldX + entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.worldY + entity.solidAreaDefaultY;
+                target[gp.currentMap][i].solidArea.x = target[gp.currentMap][i].worldX + target[gp.currentMap][i].solidAreaDefaultX;
+                target[gp.currentMap][i].solidArea.y = target[gp.currentMap][i].worldY + target[gp.currentMap][i].solidAreaDefaultY;
 
                 switch (entity.direction) {
                     case Arriba:
@@ -175,6 +174,10 @@ public class CollisionChecker {
                         }
                         break;
                 }
+                if (entity.solidArea.intersects(target[gp.currentMap][i].solidArea)) {
+                    entity.collisionOn = true;
+                    index = i;
+                }
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 target[gp.currentMap][i].solidArea.x = target[gp.currentMap][i].solidAreaDefaultX;
@@ -187,12 +190,12 @@ public class CollisionChecker {
     public void checkPlayer(Entity entity) {
 
         // conseguimos el area de la posicion de la entidad
-        entity.solidArea.x = entity.worldX + entity.solidArea.x;
-        entity.solidArea.y = entity.worldY + entity.solidArea.y;
+        entity.solidArea.x = entity.worldX + entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.worldY + entity.solidAreaDefaultY;
 
         // conseguimos el area de la posicion del objeto
-        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
-        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+        gp.player.solidArea.x = gp.player.worldX + gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.worldY + gp.player.solidAreaDefaultY;
 
         switch (entity.direction) {
             case Arriba:

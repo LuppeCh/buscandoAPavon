@@ -1,6 +1,5 @@
 package Tiles;
 
-import jdk.javadoc.internal.doclets.formats.html.HtmlLinkInfo;
 
 import java.awt.image.BufferedImage;
 
