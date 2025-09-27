@@ -78,9 +78,10 @@ public class EventHandler {
             }
 
             // Teleports "any"
-            else if (hit(0, 21, 19, Direccion.Any)) {
-                teleport(1, 12, 12, Direccion.Any, gp.gameState);
+            else if (hit(0, 6, 33, Direccion.Any)) {
+                teleport(0, 25, 25, Direccion.Any, gp.gameState);
             }
+
             else if (hit(1, 12, 13, Direccion.Any)) {
                 teleport(0, 21, 19, Direccion.Any, gp.gameState);
             }

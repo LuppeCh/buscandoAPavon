@@ -75,6 +75,7 @@ public class Entity {
         setAction();
         // activacion/desactivacion de la colision
         collisionOn = false;
+
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this,true);
         gp.cChecker.checkPlayer(this);
