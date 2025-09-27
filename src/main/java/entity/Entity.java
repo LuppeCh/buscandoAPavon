@@ -78,6 +78,7 @@ public class Entity {
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this,true);
         gp.cChecker.checkPlayer(this);
+        gp.cChecker.checkEntity(this, gp.npc);
 
         //Condicion para colision
         if (!collisionOn) {
@@ -94,9 +95,8 @@ public class Entity {
             spriteNum = (spriteNum == 1) ? 2 : 1;
             spriteCounter = 0;
         }
-
-
     }
+
 
     // metodo para cargar el dibujo
     public void draw(Graphics2D g2) {

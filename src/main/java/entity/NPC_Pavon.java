@@ -12,6 +12,7 @@ public class NPC_Pavon extends Entity {
         speed = 1;
         getImage();
         setDialogue();
+        setColisionArea();
     }
 
     public void getImage() {
@@ -30,6 +31,13 @@ public class NPC_Pavon extends Entity {
         dialogues[1] = "Hola cuanto tiempo...";
         dialogues[2] = "Me tengo que ir pero ten, \nde seguro te viene bien\n algo de comer";
         dialogues[3] = "Buena suerte";
+    }
+
+    public void setColisionArea() {
+        solidAreaDefaultX = 0;
+        solidAreaDefaultY = 0;
+        solidArea.width = gp.tileSize;
+        solidArea.height = gp.tileSize;
     }
 
     public void setAction() {
