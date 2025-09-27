@@ -1,25 +1,16 @@
 package object;
 
+import entity.Entity;
 import main.gamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.Objects;
 
-public class OBJ_sube extends SuperObject {
-    gamePanel gp;
+public class OBJ_sube extends Entity {
+
     public OBJ_sube(gamePanel gp) {
-        this.gp = gp;
+        super(gp);
         name = "SUBE";
-
-        // descripcion = "[" + name + "] \n Tarjeta para el colectivo"
-        try{
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Objects/Sube.png")));
-            uTool.scaleImage (image, gp.tileSize, gp.tileSize);
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        // descripcion = "[" + name + "] \nUna comida no muy sabrosa... \nQuien sabe... \nQuisas no sos el unico que la odia."
+        down1 = setup("/Objects/SUBE");
     }
 
 }
