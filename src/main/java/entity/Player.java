@@ -82,6 +82,8 @@ public class Player extends Entity {
         if (gp.ui.gameFinished || gp.ui.gameOver) {
             return;
         }
+        //inicializacion de la colision
+        collisionOn = false;
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) direction = Direccion.Arriba;
             else if (keyH.downPressed) direction = Direccion.Abajo;
@@ -89,20 +91,25 @@ public class Player extends Entity {
             else if (keyH.rightPressed) direction = Direccion.Derecha;
 
             // corroboramos la colision con el entorno
-            collisionOn = false;
             gp.cChecker.checkTile(this);
+
 
             // corroboramos la colision con los objetos
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
+
             gp.keyH.enterPressed = false;
+
+            //Verificacion de si existen NPCs
+            if(gp.npc[gp.currentMap] != null) {
+                // corroboramos la colision con NPCs
+                int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+                interactNPC(npcIndex);
+            }
+
 
             // corroboramos colision evento
             gp.eHandler.checkEvent();
-
-            // corroboramos la colision con NPCs
-            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-            interactNPC(npcIndex);
 
             // corroboramos colision evento
             gp.eHandler.checkEvent();
