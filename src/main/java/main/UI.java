@@ -3,12 +3,14 @@ package main;
 import varios.Reloj;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UI {
 
     gamePanel gp;
     Graphics2D g2;
-    Font arial_40, arial_80B;
+    Font arial_40, arial_80B, minecraft;
     // Mensajes
     public boolean messageOn = false;
     public String message = "";
@@ -20,14 +22,23 @@ public class UI {
     //Dialogo
     public String currentDialogue = "";
     // Tiempo de juego
-    Reloj reloj = new Reloj(this);
-
+    Reloj reloj = new Reloj(gp, this);
     //Llamar a derrota
-
     public boolean gameOver = false;
+    //variables cursor
+    public int slotCol = 0;
+    public int slotRow = 0;
 
     public UI(gamePanel gp) {
         this.gp = gp;
+        try {
+            InputStream is = getClass().getResourceAsStream("/Fonts/Minecraft.ttf");
+            minecraft = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         arial_40 = new Font("Arial", Font.PLAIN, 20);
         arial_80B = new Font("Arial", Font.BOLD, 40); // fuente más grande para victoria
@@ -68,6 +79,16 @@ public class UI {
         //State de dialogo
         if(gp.gameState == gp.dialogueState) {
             drawDialogueScreen();
+        }
+        // State de derrota
+        if(gp.gameState == gp.gameOverState){
+            // accion de fin de juego
+            drawGameOverScreen();
+        }
+        // State Character
+        if(gp.gameState == gp.characterState) {
+
+            drawInventory();
         }
 
 
@@ -113,11 +134,11 @@ public class UI {
 
             // NO detener el gameThread automáticamente
         }
-
         //--------------------
         // Condicion de perdida
         // -------------------
-        if(seg >=15){ //cambiar segun el tiempo querido (en caso de querer ver en segundos, cambiar la variable min a seg)
+
+        if(min >=15){ //cambiar segun el tiempo querido (en caso de querer ver en segundos, cambiar la variable min a seg)
             gameOver =true;
         }
 
@@ -160,7 +181,7 @@ public class UI {
         int width = gp.screenWidth - (gp.tileSize * 4);
         int height= gp.tileSize * 5;
         drawSubWindow(x, y, width, height);
-
+        g2.setFont(minecraft);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));
         x += gp.tileSize;
         y += gp.tileSize;
@@ -190,6 +211,119 @@ public class UI {
         g2.drawString("Pan de Ajo: " + gp.player.panDeAjoCount, 25, 70);
         g2.drawString("Vale por comida: " + gp.player.valePorComidaCount, 25, 90);
         g2.drawString("Time: " + tiempoTexto, gp.tileSize * 12, 65);
+    }
+
+    //dibujo de la pantalla del inventario
+    public void drawInventory() {
+        //frame
+        int frameX = gp.tileSize * 9;
+        int frameY = gp.tileSize;
+        int frameWidth = gp.tileSize * 6;
+        int frameHeight = gp.tileSize * 5;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        //slot
+        final int slotXstart = frameX + 20;
+        final int slotYstart = frameY + 20;
+        int slotX = slotXstart;
+        int slotY = slotYstart;
+        int slotSize = gp.tileSize + 3;
+
+        //Dibujar los items del jugador
+        for(int i =0; i < gp.player.inventory.size();i++) {
+
+            g2.drawImage(gp.player.inventory.get(i).down1,slotX,slotY, null);
+
+            slotX += slotSize;
+
+            if(i == 4 || i == 9 || i == 14){
+                slotX = slotXstart;
+                slotY += slotSize;
+            }
+        }
+
+        //Cursor
+        int cursorX = slotXstart + (slotSize * slotCol);
+        int cursorY = slotYstart + (slotSize * slotRow);
+        int cursorWidth = gp.tileSize;
+        int cursorHeight = gp.tileSize;
+
+        //drawCursor
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10 ,10);
+
+        //Frame de la descripcion
+        int dframeX = frameX;
+        int dframeY = frameY + frameHeight;
+        int dframeWidth = frameWidth;
+        int dframeHeight = gp.tileSize * 3;
+        drawSubWindow(dframeX, dframeY, dframeWidth, dframeHeight);
+
+        //Dibujamos la descripcion
+        int textX = dframeX + 20;
+        int textY = dframeY + gp.tileSize;
+        g2.setFont(g2.getFont().deriveFont(20F));
+
+        int itemIndex = getItemIndexOnSlot();
+
+        if(itemIndex < gp.player.inventory.size()){
+
+//            for(String line: gp.player.inventory.get(itemIndex).descripcion.split("\n"){
+//                g2.drawString(line, textX, textY);
+//                textY = += 32;
+//            }
+        }
+
+    }
+
+    public int getItemIndexOnSlot() {
+        int itemIndex = slotCol + (slotRow*5);
+        return itemIndex;
+    }
+    //dibujo de la pantalla para el game over
+    public void drawGameOverScreen() {
+        //configuracion de la pantalla
+        g2.setColor(new Color(0, 0, 0, 150));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        // configuracion del texto Game Over
+        int x;
+        int y;
+        String text;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90f));
+        // texto principa
+        text = "Game Over";
+        g2.setColor(Color.black);
+        x =getXforCenteredText(text);
+        y = gp.tileSize * 4;
+        g2.drawString(text,x,y);
+
+        // sombra por abajo del texto
+        g2.setColor(Color.white);
+        g2.drawString(text, x - 4, y -4);
+
+        // volver a jugar
+        g2.setFont(g2.getFont().deriveFont(30f));
+        text = "Volver a jugar";
+        x = getXforCenteredText(text);
+        y += gp.tileSize * 4;
+        g2.drawString(text, x, y);
+
+//        if(commandNum == 0){
+//            g2.drawString(">", x-40, y);
+//        }
+
+        //Volver al titulo principal
+        text = "Volver al menu";
+        x = getXforCenteredText(text);
+        y += 35;
+        g2.drawString(text, x, y);
+
+//        if(commandNum == 0){
+//            g2.drawString(">", x-40, y);
+//        }
+
     }
 
     public int getXforCenteredText(String text) {

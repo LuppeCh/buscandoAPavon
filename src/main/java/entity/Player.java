@@ -1,14 +1,16 @@
 package entity;
 
-import main.UtilityTool;
 import main.gamePanel;
 import main.KeyHandler;
+import object.OBJ_sube;
 import varios.Direccion;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
@@ -20,6 +22,11 @@ public class Player extends Entity {
     public int gpsCount = 0;
     public int panDeAjoCount = 0;
     public int valePorComidaCount = 0;
+
+    //inventario
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
+
 
     public Player(gamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -40,15 +47,24 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayersImage();
+        setItems();
     }
 
     public void setDefaultValues() {
-        worldX = 23 * gp.tileSize; // posicion del Player
-        worldY = 21 * gp.tileSize; // posicion del Player
+
+        // worldX = 12 * gp.tileSize; // posicion del Player
+        // worldY = 13 * gp.tileSize;
+        worldX = 23 * gp.tileSize; //posicion del Player
+        worldY = 21 * gp.tileSize;
+
         speed = 4;
         direction = Direccion.Abajo;
     }
 
+    public void setItems() {
+        //cargar el listado de los items iniciales
+       // inventory.add(new OBJ_sube(gp));
+    }
     public void getPlayersImage() {
 
         up1 = setup("/player/arriba");
@@ -62,6 +78,7 @@ public class Player extends Entity {
     }
 
     public void update() {
+
         if (gp.ui.gameFinished || gp.ui.gameOver) {
             return;
         }
@@ -78,10 +95,19 @@ public class Player extends Entity {
             // corroboramos la colision con los objetos
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
+            gp.keyH.enterPressed = false;
+
+            // corroboramos colision evento
+            gp.eHandler.checkEvent();
 
             // corroboramos la colision con NPCs
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
+
+            // corroboramos colision evento
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
 
             //Condicion para colision
             if (!collisionOn) {
@@ -105,26 +131,26 @@ public class Player extends Entity {
     public void pickUpObject(int i) {
         if (i != 999 && gp.obj[i] != null) {
 
-            String objectName = gp.obj[i].name.toLowerCase().trim();
+            String objectName = gp.obj[gp.currentMap][i].name.toLowerCase().trim();
             System.out.println("Objeto detectado: " + objectName);
 
             if (objectName.contains("gps")) {
                 gpsCount++;
-                gp.obj[i] = null;
+                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 gp.ui.showMessage("Tienes el GPS de la nave!!");
                 System.out.println("GPS: " + gpsCount);
 
             } else if (objectName.contains("pan de ajo")) {
                 panDeAjoCount++;
-                gp.obj[i] = null;
+                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 gp.ui.showMessage("Tienes el pan de ajo!!");
                 System.out.println("Pan de Ajo: " + panDeAjoCount);
 
             } else if (objectName.contains("vale por comida")) {
                 valePorComidaCount++;
-                gp.obj[i] = null;
+                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 speed += 1;
                 gp.ui.showMessage("Tienes el vale por comida!!");
@@ -142,10 +168,9 @@ public class Player extends Entity {
         if (i != 999){
             if(gp.keyH.enterPressed == true){
                 gp.gameState = gp.dialogueState;
-                gp.npc[i].speak();
+                gp.npc[gp.currentMap][i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {

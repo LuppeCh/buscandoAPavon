@@ -17,7 +17,7 @@ public class Entity {
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public Direccion direction;
+    public Direccion direction = Direccion.Abajo; // probar cambiar el primer Direction por String
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
@@ -34,8 +34,14 @@ public class Entity {
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
 
+    public BufferedImage image;
+    public String name;
+    public boolean collision = false;
+
+
+
     public Entity(gamePanel gp){
-        this.gp =gp;
+        this.gp = gp;
     }
 
     //Accion del NPC
@@ -114,7 +120,7 @@ public class Entity {
     }
 
     // Carga de las imagenes de las entidades
-    BufferedImage setup(String imagePatch) {
+    protected BufferedImage setup(String imagePatch) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
         try {
@@ -126,5 +132,8 @@ public class Entity {
         }
         return image;
     }
+
+    // esto va en Items atribute que no existe aun pero fue cambiado al cambiar las entidades y objetos
+    //public String descripcion = "";
 
 }
