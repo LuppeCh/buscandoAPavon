@@ -122,7 +122,7 @@ public class gamePanel extends JPanel implements Runnable {
 
             //Llamamos el metodo update del objeto NPC
             
-            for (int i = 0; i < npc[currentMap].length; i++) {
+            for (int i = 0; i < npc[1].length; i++) {
                 if (npc[currentMap][i] != null) {
                     npc[currentMap][i].update();
                 }

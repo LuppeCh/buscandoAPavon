@@ -8,6 +8,7 @@ public class EventHandler {
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+
     public EventHandler (gamePanel gp) {
         this.gp = gp;
 
@@ -37,7 +38,6 @@ public class EventHandler {
                 }
             }
         }
-
     }
 
     public void checkEvent() {
@@ -49,76 +49,76 @@ public class EventHandler {
         if (distance > gp.tileSize) {
             canTouchEvent = true;
         }
-
         if (canTouchEvent) {
+
             // Entrar tienda izquierda
             if (hit(0, 15, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda izquierda");
             }
 
             // Entrar tienda derecha
-            if (hit(0, 16, 14, Direccion.Arriba)) {
+            else if (hit(0, 16, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda derecha");
             }
 
             // Esquina
-            if (hit(0, 1, 15, Direccion.Arriba)) {
+            else if (hit(0, 1, 15, Direccion.Arriba)) {
                 System.out.println("Esquina");
             }
 
             // Saliste de la tienda
-            if (hit(0, 16, 15, Direccion.Abajo)) {
+            else if (hit(0, 16, 15, Direccion.Abajo)) {
                 System.out.println("Saliste de la tienda");
-                mensajeLugar(16, 15, gp.gameState);
+                mensajeLugar(gp.gameState);
             }
 
             // Interactuar con entorno
-            if (hit(0, 11, 15, Direccion.Arriba)) {
+            else if (hit(0, 11, 15, Direccion.Arriba)) {
                 interactuarEntorno(0, 11, 15, gp.gameState);
             }
 
-            // Teleports "any"
+            // Teleport Planetario
             else if (hit(0, 6, 33, Direccion.Any)) {
-                teleport(0, 25, 25, Direccion.Any, gp.gameState);
+                    teleport(1, 1, 45);
             }
-
-            else if (hit(1, 12, 13, Direccion.Any)) {
-                teleport(0, 21, 19, Direccion.Any, gp.gameState);
+            // Teleport alien
+            else if (hit(1, 7, 27, Direccion.Any)) {
+                teleport(1, 45, 9);
+            }
+            // Teleport Planetario2
+            else if (hit(1, 45, 10, Direccion.Any)) {
+                teleport(1, 7, 28);
             }
         }
     }
 
-
-
     public boolean hit(int map, int col, int row, Direccion reqDirection){
         boolean hit = false;
-
-        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
-        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
-//        eventRect[col][row].x = col * gp.tileSize + eventRect[col][row].x;
-//        eventRect[col][row].y = row * gp.tileSize + eventRect[col][row].y;
-        eventRect[map][col][row].x = col * gp.tileSize + gp.tileSize/4;
-        eventRect[map][col][row].y = row * gp.tileSize + gp.tileSize/4;
-
-        if(gp.player.solidArea.intersects(eventRect[map][col][row]) && eventRect[map][col][row].eventDone == false) {
-            if(gp.player.direction == reqDirection || reqDirection == Direccion.Any){
-                hit = true;
-
-                previousEventX = gp.player.worldX;
-                previousEventY = gp.player.worldY;
-            }
-        }
-
         if (map == gp.currentMap) {
+            gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
+            gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+            eventRect[map][col][row].x = col * gp.tileSize + eventRect[map][col][row].x;
+            eventRect[map][col][row].y = row * gp.tileSize + eventRect[map][col][row].y;
+
+            if(gp.player.solidArea.intersects(eventRect[map][col][row]) && eventRect[map][col][row].eventDone == false) {
+                if(gp.player.direction == reqDirection || reqDirection == Direccion.Any){
+                    hit = true;
+
+                    previousEventX = gp.player.worldX;
+                    previousEventY = gp.player.worldY;
+                }
+            }
+
+
             gp.player.solidArea.x = gp.player.solidAreaDefaultX;
             gp.player.solidArea.y = gp.player.solidAreaDefaultY;
             eventRect[map][col][row].x = eventRect[map][col][row].eventRectDefaultX;
             eventRect[map][col][row].y = eventRect[map][col][row].eventRectDefaultY;
         }
-
         return hit;
     }
-    public void mensajeLugar(int col, int row, int gameState) {
+
+    public void mensajeLugar(int gameState) {
         gp.gameState = gameState;
         gp.ui.currentDialogue = "Saliste de la tienda";
         canTouchEvent = false;
@@ -131,17 +131,14 @@ public class EventHandler {
         }
     }
 
-
-
-    public void teleport(int map, int col, int row,Direccion reqDirection, int gameState) {
+    public void teleport(int map, int col, int row) {
 
         gp.currentMap = map;
-        gp.gameState = gameState;
-        gp.ui.currentDialogue = "Teleport";
         gp.player.worldX = gp.tileSize * col;
         gp.player.worldY = gp.tileSize * row;
         previousEventX = gp.player.worldX;
         previousEventY = gp.player.worldY;
         canTouchEvent = false;
+        gp.ui.currentDialogue = "Teleport";
     }
 }
