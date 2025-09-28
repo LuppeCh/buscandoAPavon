@@ -30,9 +30,9 @@ public class AssetSetter {
     public void setNPC() {
 
         int mapNum = 0;
-        gp.npc[mapNum][0] = new NPC_Pavon(gp); // se crea el npc
-        gp.npc[mapNum][0].worldX = 24 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
-        gp.npc[mapNum][0].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+//        gp.npc[mapNum][0] = new NPC_Pavon(gp); // se crea el npc
+//        gp.npc[mapNum][0].worldX = 24 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+//        gp.npc[mapNum][0].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
 //
 //        gp.npc[mapNum][1] = new NPC_Pavon(gp); // se crea el npc
 //        gp.npc[mapNum][1].worldX = 22 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
@@ -41,5 +41,10 @@ public class AssetSetter {
 //        gp.npc[mapNum][2] = new NPC_Pavon(gp); // se crea el npc
 //        gp.npc[mapNum][2].worldX = 23 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
 //        gp.npc[mapNum][2].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+
+            mapNum = 1;
+            gp.npc[mapNum][2] = new NPC_Pavon(gp); // se crea el npc
+            gp.npc[mapNum][2].worldX = 45 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+            gp.npc[mapNum][2].worldY = 4 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
         }
 }

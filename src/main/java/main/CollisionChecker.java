@@ -135,8 +135,8 @@ public class CollisionChecker {
     // Colision entre NPC / player
     public int checkEntity(Entity entity, Entity[][] target) {
         int index = 999;
-        for (int i = 0; i < target[gp.currentMap].length; i++) {
-            if (target[gp.currentMap][i] != null  && target[gp.currentMap][i] != entity) {
+        for (int i = 0; i < target[1].length; i++) {
+            if (target[gp.currentMap][i] != null && target[gp.currentMap][i] != entity) {
 
                 // Recalcular posiciones absolutas para colisión
                 entity.solidArea.x = entity.worldX + entity.solidAreaDefaultX;

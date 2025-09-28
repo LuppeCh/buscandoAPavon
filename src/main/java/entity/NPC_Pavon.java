@@ -9,7 +9,7 @@ public class NPC_Pavon extends Entity {
     public NPC_Pavon(gamePanel gp) {
         super(gp);
         direction = Direccion.Abajo;
-        speed = 1;
+        speed = 1; // lo cambie para frenar al npc
         getImage();
         setDialogue();
         setColisionArea();

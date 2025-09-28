@@ -20,13 +20,13 @@ public class TileManager {
 
     public TileManager(gamePanel gp) {
         this.gp = gp;
-        tile = new Tile[50];
+        tile = new Tile[100];
 
         mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
         loadMap("/Mapas/MAPAAILA2.txt",0);
-        loadMap("/Mapas/world01.txt",1);
+        loadMap("/Mapas/PLANETARIO.txt",1);
     }
 
 public void getTileImage() {
@@ -73,19 +73,44 @@ public void getTileImage() {
     setup(39, "39", true);
     setup(40, "40", true);
     setup(41, "41", true);
+    setup(42, "42", false);
+    setup(43, "43", false);
+    setup(44, "44", false);
+    setup(45, "45", false);
+    setup(46, "46", false);
+    setup(47, "47", false);
+    setup(48, "48", false);
+    setup(49, "49", false);
+    setup(50, "50", false);
+    setup(51, "51", false);
+    setup(52, "52", false);
+    setup(53, "53", false);
+    setup(54, "54", false);
+    setup(55, "55", false);
+    setup(56, "56", false);
+    setup(57, "57", false);
+    setup(58, "58", false);
+    setup(59, "59", false);
+    setup(60, "60", false);
+    setup(61, "61", false);
+    setup(62, "62", false);
+    setup(63, "63", false);
+    setup(64, "00", false);
+    setup(65, "00", false);
+    setup(66, "00", false);
+    setup(67, "00", false);
+    setup(68, "00", false);
+    setup(69, "00", false);
+    setup(70, "70", false);
+    setup(71, "71", false);
+    setup(72, "72", false);
+    setup(73, "73", true);
+    setup(74, "74", false);
+    setup(75, "75", true);
+    setup(76, "76", true);
+    setup(77, "77", false);
+    setup(78, "78", false);
 
-//    setup(0, "grass", false);
-//    setup(1, "wall", true);
-//    setup(2, "water", true);
-//    setup(3, "earth", false);
-//    setup(4, "tree", true);
-//    setup(5, "sand", false);
-//    setup(10, "grass", false);
-//    setup(40, "wall", true);
-//    setup(41, "tree", true);
-//    setup(42, "hut", false);
-//    setup(43, "floor01", false);
-//    setup(44, "table", true);
     }
 
     public void setup(int index, String imageName, boolean collision) {
@@ -108,9 +133,6 @@ public void getTileImage() {
 
     public void loadMap(String filePath, int map) { // (String filePath, int map)
         try {
-//            InputStream is = getClass().getResourceAsStream("/Mapas/world01.txt");
-//            InputStream is = getClass().getResourceAsStream("/Mapas/MAPAAILA2.txt");
-
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
