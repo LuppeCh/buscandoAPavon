@@ -54,12 +54,13 @@ public class gamePanel extends JPanel implements Runnable {
         
     //GAME STATES
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int gameOverState = 4;
     public final int characterState = 5;
-    public final int titleState = 6;
+
 
     public gamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -73,8 +74,8 @@ public class gamePanel extends JPanel implements Runnable {
     public void setupGame() {
         aSetter.setObject();
         aSetter.setNPC();
-        playMusic(0);
-        gameState = playState;
+       // playMusic(0);
+        gameState = titleState;
     }
 
     public void startGameThread() {
@@ -167,7 +168,26 @@ public class gamePanel extends JPanel implements Runnable {
             g2.drawString("Row: " + (player.worldY + player.solidArea.y) / tileSize, x, y); y+= 22;
             g2.drawString("Draw time: " + passed, x, y);
 
+
+
         }
+
+        // TITLE SCREEN
+        if(gameState == titleState) {
+            ui.draw(g2);
+
+        }
+
+        // OTHERS
+        else {
+            // TILE
+            tileM.draw(g2);
+        }
+
+        //Llamamos el metodo draw del objeto player
+        player.draw(g2);
+        // UI
+        ui.draw(g2);
 
         // add entities
         entityList.add(player);

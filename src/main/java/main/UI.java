@@ -11,6 +11,65 @@ public class UI {
     gamePanel gp;
     Graphics2D g2;
     Font arial_40, arial_80B, minecraft;
+
+    public int commandNum = 0;
+    public int titleScreenState = 0;
+
+    public void drawTitleScreen (){
+        if(titleScreenState == 0){
+            g2.setColor(new Color(0, 0, 0));
+            g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
+
+            // TITLE NAME
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 60F));
+            String text = "La busqueda de Peivon";
+            int x = getXforCenteredText(text);
+            int y = gp.tileSize*3;
+
+            // SHADOW
+            g2.setColor(Color.gray);
+            g2.drawString(text, x+5, y+5);
+
+            // MAIN COLOR
+            g2.setColor(Color.white);
+            g2.drawString(text, x, y);
+
+
+            // PEIVON IMAGEN
+            x = gp.screenWidth/2 - (gp.tileSize*2)/2;
+            y += gp.tileSize*2;
+            g2.drawImage(gp.player.down1, x, y, gp.tileSize*2, gp.tileSize*2, null);
+
+            // MENU
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
+
+            text = "Nuevo Juego";
+            x = getXforCenteredText(text);
+            y += gp.tileSize * 3.5;
+            g2.drawString(text, x, y);
+            if (commandNum == 0) {
+                g2.drawString(">", x - gp.tileSize, y);
+            }
+
+            text = "Cargar Juego";
+            x = getXforCenteredText(text);
+            y += gp.tileSize;
+            g2.drawString(text, x, y);
+            if (commandNum == 1) {
+                g2.drawString(">", x - gp.tileSize, y);
+            }
+
+            text = "Salir";
+            x = getXforCenteredText(text);
+            y += gp.tileSize;
+            g2.drawString(text, x, y);
+            if (commandNum == 2) {
+                g2.drawString(">", x - gp.tileSize, y);
+            }
+
+        }
+
+    }
     // Mensajes
     public boolean messageOn = false;
     public String message = "";
@@ -68,6 +127,11 @@ public class UI {
 
         String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState) {
+            drawTitleScreen();
+        }
+
         //State de juego
         if(gp.gameState == gp.playState){
             drawPlayScreen(tiempoTexto);
@@ -92,6 +156,8 @@ public class UI {
         }
 
 
+
+
         // -------------------
         // Mensaje temporal
         // -------------------
@@ -106,6 +172,8 @@ public class UI {
                 messageOn = false;
             }
         }
+
+
 
         // -------------------
         // Mensaje de victoria
@@ -271,7 +339,7 @@ public class UI {
 
 //            for(String line: gp.player.inventory.get(itemIndex).descripcion.split("\n"){
 //                g2.drawString(line, textX, textY);
-//                textY = += 32;
+//                textY += 32;
 //            }
         }
 
@@ -310,9 +378,9 @@ public class UI {
         y += gp.tileSize * 4;
         g2.drawString(text, x, y);
 
-//        if(commandNum == 0){
-//            g2.drawString(">", x-40, y);
-//        }
+        if(commandNum == 0){
+            g2.drawString(">", x-40, y);
+        }
 
         //Volver al titulo principal
         text = "Volver al menu";
@@ -320,9 +388,9 @@ public class UI {
         y += 35;
         g2.drawString(text, x, y);
 
-//        if(commandNum == 0){
-//            g2.drawString(">", x-40, y);
-//        }
+        if(commandNum == 1){
+            g2.drawString(">", x-40, y);
+        }
 
     }
 

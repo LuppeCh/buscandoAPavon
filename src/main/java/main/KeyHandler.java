@@ -22,6 +22,72 @@ public class KeyHandler implements KeyListener{
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState) {
+            if(gp.ui.titleScreenState == 0){
+                if(code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if(gp.ui.commandNum < 0) {
+                        gp.ui.commandNum = 2;
+                    }
+                }
+                if(code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if(gp.ui.commandNum > 2) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+                if(code == KeyEvent.VK_ENTER) {
+                    if(gp.ui.commandNum == 0) {
+                        gp.gameState = gp.playState;
+                    }
+                    if(gp.ui.commandNum == 1) {
+                        // add later
+                    }
+                    if(gp.ui.commandNum == 2) {
+                        System.exit(0);
+                    }
+                }
+                else if(gp.gameState == gp.playState){
+                    if(code == KeyEvent.VK_W) {
+                        gp.ui.commandNum--;
+                        if(gp.ui.commandNum < 0) {
+                            gp.ui.commandNum = 3;
+                        }
+                    }
+                    if(code == KeyEvent.VK_S) {
+                        gp.ui.commandNum++;
+                        if(gp.ui.commandNum > 3) {
+                            gp.ui.commandNum = 0;
+                        }
+                    }
+                    if(code == KeyEvent.VK_ENTER) {
+                        if(gp.ui.commandNum == 0) {
+                            System.out.println("Haz algunas cosas especificas de...");
+                            gp.gameState = gp.playState;
+                            gp.ui.titleScreenState = 1;
+                            gp.playMusic(0);
+                        }
+                        if(gp.ui.commandNum == 1) {
+                            System.out.println("Haz algunas cosas especificas de...");
+                            gp.gameState = gp.playState;
+                            gp.playMusic(0);
+                        }
+                        if(gp.ui.commandNum == 2) {
+                            System.out.println("Haz algunas cosas especificas de...");
+                            gp.gameState = gp.playState;
+                            gp.playMusic(0);
+                        }
+                        if(gp.ui.commandNum == 3) {
+                            gp.gameState = gp.titleState;
+
+                        }
+                    }
+                }
+            }
+
+        }
+
         //titleState
         if(gp.gameState == gp.titleState) {
             //llamamos el metodo titleState
@@ -125,30 +191,30 @@ public class KeyHandler implements KeyListener{
 
     public void gameOverState(int code){
 
-//        if(code == KeyEvent.VK_W){
-//            gp.ui.commandNum--;
-//            if(gp.ui.commandNum < 0) {
-//                gp.ui.commandNum = 1;
-//            }
-//            gp.playSe(4);
-//        }
-//        if(code == KeyEvent.VK_S){
-//            gp.ui.commandNum++;
-//            if(gp.ui.commandNum > 1) {
-//                gp.ui.commandNum = 0;
-//            }
-//            gp.playSe(4);
-//        }
-//        if(code == KeyEvent.VK_ENTER){
-//            if(gp.ui.commandNum == 0) {
-//                gp.gameState = gp.playState;
-//                gp.volverAJugar();
-//            }
-//            else if(gp.ui.commandNum == 1) {
-//                gp.gameState = gp.titleState;
-//                gp.volverAJugar(); nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
-//            }
-//        }
+        if(code == KeyEvent.VK_W){
+            gp.ui.commandNum--;
+            if(gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+            gp.playSE(5);
+        }
+        if(code == KeyEvent.VK_S){
+            gp.ui.commandNum++;
+            if(gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+            gp.playSE(5);
+        }
+        if(code == KeyEvent.VK_ENTER){
+            if(gp.ui.commandNum == 0) {
+                gp.gameState = gp.playState;
+                gp.volverAJugar();
+            }
+            else if(gp.ui.commandNum == 1) {
+                gp.gameState = gp.titleState;
+                gp.volverAJugar();// nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
+            }
+        }
     }
 
 
