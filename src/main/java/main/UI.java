@@ -337,10 +337,10 @@ public class UI {
 
         if(itemIndex < gp.player.inventory.size()){
 
-//            for(String line: gp.player.inventory.get(itemIndex).descripcion.split("\n"){
-//                g2.drawString(line, textX, textY);
-//                textY += 32;
-//            }
+           for(String line: gp.player.inventory.get(itemIndex).descripcion.split("\n")) {
+                g2.drawString(line, textX, textY);
+               textY += 32;
+           }
         }
 
     }
