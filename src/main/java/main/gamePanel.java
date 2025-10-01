@@ -152,25 +152,7 @@ public class gamePanel extends JPanel implements Runnable {
 
         tileM.draw(g2);
 
-        // Debug
-        if (keyH.checkDrawTime == true) {
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-            g2.setColor(Color.white);
-            g2.setFont(new Font("Arial",Font.PLAIN,20));
-//            System.out.println("Draw time: " + passed);
-            int x = 10;
-            int y = 400;
 
-            g2.drawString("World X: " + player.worldX, x, y); y+= 22;
-            g2.drawString("World Y: " + player.worldY, x, y); y+= 22;
-            g2.drawString("Col: " + (player.worldX + player.solidArea.x) / tileSize, x, y); y+= 22;
-            g2.drawString("Row: " + (player.worldY + player.solidArea.y) / tileSize, x, y); y+= 22;
-            g2.drawString("Draw time: " + passed, x, y);
-
-
-
-        }
 
         // TITLE SCREEN
         if(gameState == titleState) {
@@ -223,13 +205,23 @@ public class gamePanel extends JPanel implements Runnable {
         // UI
         ui.draw(g2);
 
-//        if (keyH.checkDrawTime) {
-//            long drawEnd = System.nanoTime();
-//            long passed = drawEnd - drawStart;
-//            g2.setColor(Color.white);
-//            g2.drawString("Draw time: " + passed, 10, 400);
+        // Debug
+        if (keyH.checkDrawTime == true) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.white);
+            g2.setFont(new Font("Arial",Font.PLAIN,20));
 //            System.out.println("Draw time: " + passed);
-//        }
+            int x = 10;
+            int y = 400;
+
+            g2.drawString("World X: " + player.worldX, x, y); y+= 22;
+            g2.drawString("World Y: " + player.worldY, x, y); y+= 22;
+            g2.drawString("Col: " + (player.worldX + player.solidArea.x) / tileSize, x, y); y+= 22;
+            g2.drawString("Row: " + (player.worldY + player.solidArea.y) / tileSize, x, y); y+= 22;
+            g2.drawString("Draw time: " + passed, x, y);
+        }
+
         g2.dispose();
 
     }

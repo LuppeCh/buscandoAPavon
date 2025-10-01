@@ -1,15 +1,10 @@
 package entity;
-
 import main.gamePanel;
 import main.KeyHandler;
 import object.OBJ_sube;
 import varios.Direccion;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Player extends Entity {
@@ -98,7 +93,7 @@ public class Player extends Entity {
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
-            gp.keyH.enterPressed = false;
+//            gp.keyH.enterPressed = false;
 
             //Verificacion de si existen NPCs
             if(gp.npc[gp.currentMap] != null) {
@@ -191,4 +186,3 @@ public class Player extends Entity {
         g2.drawImage(image, screenX, screenY, null);
     }
 }
-
