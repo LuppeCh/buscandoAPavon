@@ -54,8 +54,8 @@ public class Player extends Entity {
 
         // worldX = 12 * gp.tileSize; // posicion del Player
         // worldY = 13 * gp.tileSize;
-        worldX = 7 * gp.tileSize; //posicion del Player
-        worldY = 30 * gp.tileSize;
+        worldX = 47 * gp.tileSize; //posicion del Player
+        worldY = 4 * gp.tileSize;
 
         speed = 4;
         direction = Direccion.Abajo;
@@ -63,7 +63,7 @@ public class Player extends Entity {
 
     public void setItems() {
         //cargar el listado de los items iniciales
-       // inventory.add(new OBJ_sube(gp));
+        inventory.add(new OBJ_sube(gp));
     }
     public void getPlayersImage() {
 

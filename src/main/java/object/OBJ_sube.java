@@ -9,7 +9,7 @@ public class OBJ_sube extends Entity {
     public OBJ_sube(gamePanel gp) {
         super(gp);
         name = "SUBE";
-        // descripcion = "[" + name + "] \nUna comida no muy sabrosa... \nQuien sabe... \nQuisas no sos el unico que la odia."
+        descripcion = "[" + name + "] \nLa mejor compañera de viaje. \nEvita que tengas que caminar \nlargas distancias.";
         down1 = setup("/Objects/SUBE");
     }
 

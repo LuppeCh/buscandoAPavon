@@ -135,6 +135,6 @@ public class Entity {
     }
 
     // esto va en Items atribute que no existe aun pero fue cambiado al cambiar las entidades y objetos
-    //public String descripcion = "";
+    public String descripcion = "";
 
 }
