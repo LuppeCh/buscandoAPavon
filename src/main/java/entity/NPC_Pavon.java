@@ -16,14 +16,14 @@ public class NPC_Pavon extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("/BlueBoy/boy_up_1");
-        up2 = setup("/BlueBoy/boy_up_2");
-        down1 = setup("/BlueBoy/boy_down_1");
-        down2 = setup("/BlueBoy/boy_down_2");
-        left1 = setup("/BlueBoy/boy_left_1");
-        left2 = setup("/BlueBoy/boy_left_2");
-        right1 = setup("/BlueBoy/boy_right_1");
-        right2 = setup("/BlueBoy/boy_right_2");
+        up1 = setup("/Pavon/pavondetras1");
+        up2 = setup("/Pavon/pavondetras2");
+        down1 = setup("/Pavon/pavonfrente1");
+        down2 = setup("/Pavon/pavonfrente2");
+        left1 = setup("/Pavon/pavonizquierda1");
+        left2 = setup("/Pavon/pavonizquierda2");
+        right1 = setup("/Pavon/pavonderecha1");
+        right2 = setup("/Pavon/pavonderecha2");
     }
 
     public void setDialogue() {

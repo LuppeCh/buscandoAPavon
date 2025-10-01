@@ -112,7 +112,7 @@ public void getTileImage() {
     setup(77, "77", false);
     setup(78, "78", false);
     setup(79, "79", false);
-
+    setup(80, "80", true);
     }
 
     public void setup(int index, String imageName, boolean collision) {
