@@ -15,6 +15,7 @@ public class UI {
     public int commandNum = 0;
     public int titleScreenState = 0;
 
+
     public void drawTitleScreen (){
         if(titleScreenState == 0){
             g2.setColor(new Color(0, 0, 0));
@@ -124,14 +125,12 @@ public class UI {
         int min = reloj.getMinutos();
         int seg = reloj.getSegundos();
         int ms = reloj.getMilisegundos();
-
         String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
 
         // TITLE STATE
         if(gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
-
         //State de juego
         if(gp.gameState == gp.playState){
             drawPlayScreen(tiempoTexto);
@@ -337,10 +336,10 @@ public class UI {
 
         if(itemIndex < gp.player.inventory.size()){
 
-//            for(String line: gp.player.inventory.get(itemIndex).descripcion.split("\n"){
-//                g2.drawString(line, textX, textY);
-//                textY += 32;
-//            }
+            for(String line: gp.player.inventory.get(itemIndex).descripcion.split("\n")){
+                g2.drawString(line, textX, textY);
+                textY += 32;
+            }
         }
 
     }
@@ -399,4 +398,5 @@ public class UI {
         int x = gp.screenWidth/2 - lenght/2;
         return x;
     }
+
 }

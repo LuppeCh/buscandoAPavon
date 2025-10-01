@@ -2,8 +2,10 @@ package entity;
 
 import main.gamePanel;
 import main.KeyHandler;
+import object.OBJ_panDeAjo;
 import object.OBJ_sube;
 import varios.Direccion;
+
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -57,13 +59,14 @@ public class Player extends Entity {
         worldX = 7 * gp.tileSize; //posicion del Player
         worldY = 30 * gp.tileSize;
 
-        speed = 4;
+        speed = 10;
         direction = Direccion.Abajo;
     }
 
     public void setItems() {
         //cargar el listado de los items iniciales
-       // inventory.add(new OBJ_sube(gp));
+        inventory.add(new OBJ_sube(gp));
+//        inventory.add(new OBJ_panDeAjo(gp));
     }
     public void getPlayersImage() {
 
@@ -98,7 +101,7 @@ public class Player extends Entity {
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
-            gp.keyH.enterPressed = false;
+//            gp.keyH.enterPressed = false;
 
             //Verificacion de si existen NPCs
             if(gp.npc[gp.currentMap] != null) {

@@ -15,7 +15,7 @@ public class Entity {
     public int worldX, worldY;
 
     public int speed;
-
+    public int mapIndex;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public Direccion direction = Direccion.Abajo; // probar cambiar el primer Direction por String
 
@@ -53,6 +53,9 @@ public class Entity {
         }
         gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex ++;
+
+        //cabiar a dialogue state
+        gp.gameState = gp.dialogueState;
 
         switch (gp.player.direction) {
             case Arriba:
@@ -102,6 +105,9 @@ public class Entity {
     // metodo para cargar el dibujo
     public void draw(Graphics2D g2) {
 
+        if (gp.currentMap != mapIndex) {
+            return;
+        }
         BufferedImage image = null;
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
@@ -135,6 +141,6 @@ public class Entity {
     }
 
     // esto va en Items atribute que no existe aun pero fue cambiado al cambiar las entidades y objetos
-    //public String descripcion = "";
+    public String descripcion = "";
 
 }
