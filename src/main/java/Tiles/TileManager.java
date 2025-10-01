@@ -111,6 +111,7 @@ public void getTileImage() {
     setup(76, "76", true);
     setup(77, "77", false);
     setup(78, "78", false);
+    setup(79, "79", false);
 
     }
 
