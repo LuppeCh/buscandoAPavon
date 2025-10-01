@@ -52,7 +52,7 @@ public class Player extends Entity {
         worldX = 47 * gp.tileSize; //posicion del Player
         worldY = 4 * gp.tileSize;
 
-        speed = 4;
+        speed = 10;
         direction = Direccion.Abajo;
     }
 

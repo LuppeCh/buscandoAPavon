@@ -51,19 +51,11 @@ public class UI {
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
-            text = "Cargar Juego";
-            x = getXforCenteredText(text);
-            y += gp.tileSize;
-            g2.drawString(text, x, y);
-            if (commandNum == 1) {
-                g2.drawString(">", x - gp.tileSize, y);
-            }
-
             text = "Salir";
             x = getXforCenteredText(text);
             y += gp.tileSize;
             g2.drawString(text, x, y);
-            if (commandNum == 2) {
+            if (commandNum == 1) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
@@ -173,8 +165,6 @@ public class UI {
             }
         }
 
-
-
         // -------------------
         // Mensaje de victoria
         // -------------------
@@ -201,13 +191,6 @@ public class UI {
             g2.drawString(text, x, y);
 
             // NO detener el gameThread automáticamente
-        }
-        //--------------------
-        // Condicion de perdida
-        // -------------------
-
-        if(min >=15){ //cambiar segun el tiempo querido (en caso de querer ver en segundos, cambiar la variable min a seg)
-            gameOver =true;
         }
 
         // -------------------
