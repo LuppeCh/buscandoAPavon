@@ -1,46 +1,72 @@
-package entity;
+    package entity;
 
-import main.gamePanel;
-import varios.Direccion;
+    import main.gamePanel;
+    import object.OBJ_panDeAjo;
+    import varios.Direccion;
 
-import java.util.Random;
+    import java.util.Random;
 
-public class NPC_Panadera extends Entity {
-    public NPC_Panadera(gamePanel gp) {
-        super(gp);
-        direction = Direccion.Abajo;
-        getImage();
-        setDialogue();
-        setColisionArea();
+    public class NPC_Panadera extends Entity {
+        public boolean tienePan = false;
+        public NPC_Panadera(gamePanel gp) {
+            super(gp);
+            direction = Direccion.Abajo;
+            getImage();
+            setDialogue();
+            setColisionArea();
+        }
+
+        public void getImage() {
+            down1 = setup("/NPC_Panadera/Panadera");
+            down2 = setup("/NPC_Panadera/Panadera");
+        }
+
+        public void setDialogue() {
+
+
+        }
+
+        public void setColisionArea() {
+            solidAreaDefaultX = 0;
+            solidAreaDefaultY = 0;
+            solidArea.width = gp.tileSize;
+            solidArea.height = 2 * gp.tileSize;
+        }
+
+        public void setAction() {
+            //agrgar movimiento
+            direction = Direccion.Abajo;
+        }
+
+        // sobreescritura de la variable speak de entidades por personajes
+        public void speak() {
+            if (gp.npc[0][1] instanceof NPC_Pavon) { // casteamos Pavon
+                NPC_Pavon pavon = (NPC_Pavon) gp.npc[0][1];
+
+                if (pavon.tieneCupon) {
+                    dialogues[0] = "Uh... Que es eso? ";
+                    dialogues[1] = "Un cupon de comida?";
+                    dialogues[2] = "Felicidades.... supongo";
+                    dialogues[3] = "Te ofresco 3 opciones: Chipa, Medialunas o Pan de Ajo!!";
+                    dialogues[4] = ".";
+                    dialogues[5] = ". .";
+                    dialogues[6] = ". . .";
+                    dialogues[7] = "Me equivoque, solo nos queda Pan de Ajo... Disfrutalo!!!";
+                    gp.player.removeItem("vale por comida");
+                    if(tienePan == false){
+                        gp.player.inventory.add(new OBJ_panDeAjo(gp));
+                        tienePan=true;
+                    }
+
+                } else {
+                    dialogues[0] = "Hola... en que te puedo ayudar?";
+                    dialogues[1] = "Lo siento... \npero la unica comida que\nnos queda esta reservada";
+                    dialogues[2] = "Si no tienes el cupon... \nEntonces vete... \nEspero clientes";
+                }
+            }
+
+
+            //podemos personalizar las caracteristicas principales de cada personaje
+            super.speak();
+        }
     }
-
-    public void getImage() {
-        down1 = setup("/NPC_Panadera/Panadera");
-        down2 = setup("/NPC_Panadera/Panadera");
-    }
-
-    public void setDialogue() {
-        dialogues[0] = "Volpin... ";
-        dialogues[1] = "Hola cuanto tiempo...";
-        dialogues[2] = "Me tengo que ir pero ten, \nde seguro te viene bien\n algo de comer";
-        dialogues[3] = "Buena suerte";
-    }
-
-    public void setColisionArea() {
-        solidAreaDefaultX = 0;
-        solidAreaDefaultY = 0;
-        solidArea.width = gp.tileSize;
-        solidArea.height = 2 * gp.tileSize;
-    }
-
-    public void setAction() {
-        //agrgar movimiento
-        direction = Direccion.Abajo;
-    }
-
-    // sobreescritura de la variable speak de entidades por personajes
-    public void speak() {
-        //podemos personalizar las caracteristicas principales de cada personaje
-        super.speak();
-    }
-}

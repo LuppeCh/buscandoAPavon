@@ -1,7 +1,9 @@
 package entity;
 import main.gamePanel;
 import main.KeyHandler;
+import object.OBJ_panDeAjo;
 import object.OBJ_sube;
+import object.OBJ_valePorComida;
 import varios.Direccion;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -59,6 +61,8 @@ public class Player extends Entity {
     public void setItems() {
         //cargar el listado de los items iniciales
         inventory.add(new OBJ_sube(gp));
+        inventory.add(new OBJ_valePorComida(gp));
+
     }
     public void getPlayersImage() {
 
@@ -131,28 +135,32 @@ public class Player extends Entity {
 
     // Método para recoger objetos, insensible a mayúsculas y espacios
     public void pickUpObject(int i) {
-        if (i != 999 && gp.obj[i] != null) {
-
-            String objectName = gp.obj[gp.currentMap][i].name.toLowerCase().trim();
+        if (i != 999 && gp.obj[gp.currentMap][i] != null) {
+            Entity obj =gp.obj[gp.currentMap][i];
+            String objectName = obj.name.toLowerCase().trim();
             System.out.println("Objeto detectado: " + objectName);
+
+            if(inventory.size()>= maxInventorySize){
+                gp.ui.showMessage("Inventario lleno");
+                return;
+            }
+
+            inventory.add(obj);
 
             if (objectName.contains("gps")) {
                 gpsCount++;
-                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 gp.ui.showMessage("Tienes el GPS de la nave!!");
                 System.out.println("GPS: " + gpsCount);
 
             } else if (objectName.contains("pan de ajo")) {
                 panDeAjoCount++;
-                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 gp.ui.showMessage("Tienes el pan de ajo!!");
                 System.out.println("Pan de Ajo: " + panDeAjoCount);
 
             } else if (objectName.contains("vale por comida")) {
                 valePorComidaCount++;
-                gp.obj[gp.currentMap][i] = null;
                 gp.playSE(1);
                 speed += 1;
                 gp.ui.showMessage("Tienes el vale por comida!!");
@@ -162,7 +170,11 @@ public class Player extends Entity {
                 gp.ui.gameFinished = true;
                 gp.stopMusic();
                 gp.playSE(3);
+            } else {
+                gp.playSE(1);
+                gp.ui.showMessage("Has recogido:" + obj.name);
             }
+            gp.obj[gp.currentMap][i] = null;
         }
     }
 
@@ -171,6 +183,24 @@ public class Player extends Entity {
             if(gp.keyH.enterPressed == true){
                 gp.gameState = gp.dialogueState;
                 gp.npc[gp.currentMap][i].speak();
+            }
+        }
+    }
+
+    public boolean hasItem(String itemName) {
+        for (Entity item : inventory) {
+            if (item != null && item.name.equalsIgnoreCase(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeItem(String itemName) {
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).name.equalsIgnoreCase(itemName)) {
+                inventory.remove(i);
+                break;
             }
         }
     }
