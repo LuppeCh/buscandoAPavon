@@ -1,5 +1,7 @@
 package main;
 
+import varios.Reloj;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.security.Key;
@@ -39,6 +41,8 @@ public class KeyHandler implements KeyListener{
                 }
                 if(code == KeyEvent.VK_ENTER) {
                     if(gp.ui.commandNum == 0) {
+                        gp.reloj.reiniciarTiempo(); // ✅ Reinicia el tiempo al empezar juego
+                        gp.gameState = gp.playState;
                         gp.gameState = gp.playState;
                     }
                     if(gp.ui.commandNum == 1) {
@@ -62,6 +66,7 @@ public class KeyHandler implements KeyListener{
                         if(gp.ui.commandNum == 0) {
                             System.out.println("Haz algunas cosas especificas de...");
                             gp.gameState = gp.playState;
+                            gp.reloj.reiniciarTiempo();
                             gp.ui.titleScreenState = 1;
                             gp.playMusic(0);
                             gp.videos.play("pavon");
@@ -205,11 +210,13 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_ENTER){
             if(gp.ui.commandNum == 0) {
+                gp.reloj.reiniciarTiempo();
                 gp.gameState = gp.playState;
                 gp.volverAJugar();
             }
             else if(gp.ui.commandNum == 1) {
                 gp.gameState = gp.titleState;
+                gp.reloj.reiniciarTiempo();
                 gp.volverAJugar();// nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
             }
         }

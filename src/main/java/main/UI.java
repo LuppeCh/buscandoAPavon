@@ -1,6 +1,5 @@
 package main;
 
-import varios.Reloj;
 
 import java.awt.*;
 import java.io.IOException;
@@ -75,8 +74,8 @@ public class UI {
     public void setDialogue(String dialogue){
         this.currentDialogue = dialogue;
     }
-    // Tiempo de juego
-    Reloj reloj = new Reloj(gp, this);
+//    // Tiempo de juego
+//    Reloj reloj = new Reloj(gp, this);
     //Llamar a derrota
     public boolean gameOver = false;
     //variables cursor
@@ -114,13 +113,13 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.white);
 
-        //Llamamos los tiempos del juego
-        reloj.actualizarTiempo();
-        int min = reloj.getMinutos();
-        int seg = reloj.getSegundos();
-        int ms = reloj.getMilisegundos();
+//        //Llamamos los tiempos del juego
+//        reloj.actualizarTiempo();
+//        int min = reloj.getMinutos();
+//        int seg = reloj.getSegundos();
+//        int ms = reloj.getMilisegundos();
 
-        String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
+//        String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
 
         // TITLE STATE
         if(gp.gameState == gp.titleState) {
@@ -129,8 +128,17 @@ public class UI {
 
         //State de juego
         if(gp.gameState == gp.playState){
+            gp.reloj.actualizarTiempo();  // ✅ SOLO acá
+
+            int min = gp.reloj.getMinutos();
+            int seg = gp.reloj.getSegundos();
+            int ms = gp.reloj.getMilisegundos();
+
+            String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
             drawPlayScreen(tiempoTexto);
         }
+
+
         //State de pausa
         if(gp.gameState == gp.pauseState){
             //Nada
@@ -142,6 +150,11 @@ public class UI {
         // State de derrota
         if(gp.gameState == gp.gameOverState){
             // accion de fin de juego
+            int min = gp.reloj.getMinutos();
+            int seg = gp.reloj.getSegundos();
+            int ms = gp.reloj.getMilisegundos();
+            String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
+
             drawGameOverScreen();
         }
         // State Character
@@ -174,6 +187,11 @@ public class UI {
         if (gameFinished) {
             g2.setFont(arial_80B);
             g2.setColor(Color.YELLOW);
+
+            int min = gp.reloj.getMinutos();
+            int seg = gp.reloj.getSegundos();
+            int ms = gp.reloj.getMilisegundos();
+            String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
 
             String text = "Continuara!!";
             int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();

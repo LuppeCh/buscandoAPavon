@@ -3,15 +3,31 @@ package main;
 import Tiles.TileManager;
 import entity.Entity;
 import entity.Player;
-import javafx.stage.Stage;
 import varios.Reloj;
-import java.io.File;
+import javax.swing.JFrame;
+
+// JavaFX
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+
+// Swing
 import javax.swing.JPanel;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+
+// AWT
 import java.awt.*;
+
+// Otros
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 
 public class gamePanel extends JPanel implements Runnable {
         // configuración de pantalla
@@ -24,8 +40,11 @@ public class gamePanel extends JPanel implements Runnable {
         public final int maxScreenRow = 12;
         public final int screenWidth = tileSize * maxScreenCol;
         public final int screenHeight = tileSize * maxScreenRow;
+        public boolean videoMostrado = false; // para el video de salida de la tienda
 
-        // configuraciones del mundo
+
+
+    // configuraciones del mundo
         public final int maxWorldCol = 50;
         public final int maxWorldRow = 50;
         public final int maxMap =10;
@@ -36,7 +55,7 @@ public class gamePanel extends JPanel implements Runnable {
         int FPS = 60;
 
         // Reloj
-        private Reloj reloj;
+        public Reloj reloj;
         TileManager tileM = new TileManager(this);
 
         public KeyHandler keyH = new KeyHandler(this);
@@ -55,7 +74,9 @@ public class gamePanel extends JPanel implements Runnable {
          public boolean spawnPan = false;
 
         ArrayList<Entity> entityList = new ArrayList<>();
-        
+
+
+
     //GAME STATES
     public int gameState;
     public final int titleState = 0;
@@ -76,18 +97,76 @@ public class gamePanel extends JPanel implements Runnable {
 
         videos = new VideosSwing(screenWidth, screenHeight);
 
+
+        // CAMBIO IMPORTANTE: usar layout nulo
+        this.setLayout(null);
+        this.add(videos.getFXPanel());
+        videos.getFXPanel().setBounds(0, 0, screenWidth, screenHeight);
+        videos.getFXPanel().setVisible(false);
+
         // Agregar el JFXPanel al JPanel del juego
         this.add(videos.getFXPanel());
-        videos.getFXPanel().setVisible(true);
+        videos.getFXPanel().setVisible(false);
+        videos.loadVideo("pavon", "res/Videos/Mercado.mp4");
+        videos.loadVideo("monu", "res/Videos/1002.mp4");
+
+
     }
+
+    public void showVideo(String key) {
+        System.out.println("=== Mostrando video: " + key + " ===");
+
+        // Pausar el juego mientras corre el video
+        gameState = pauseState;
+
+        // Hacer visible el panel de video
+        videos.getFXPanel().setVisible(true);
+
+        // Reproducir el video
+        videos.play(key);
+
+        // Cuando termine el video, ocultar el panel y volver a jugar
+        if (videos.currentPlayer != null) {
+            videos.currentPlayer.setOnEndOfMedia(() -> {
+                videos.stop();
+                videos.getFXPanel().setVisible(false);
+                gameState = playState;
+
+
+            });
+        }
+    }
+
+
+//    public void showVideo(String key) {
+//        // Mostrar el panel del video
+//        videos.getFXPanel().setVisible(true);
+//        videos.play(key);
+//
+//        // Cuando termine, ocultar el panel y seguir el juego
+//        videos.currentPlayer.setOnEndOfMedia(() -> {
+//            videos.stop();
+//            videos.getFXPanel().setVisible(false);
+//            gameState = playState; // volver a jugar
+//
+//            System.out.println(new File("res/Videos/Mercado.mp4").getAbsolutePath());
+//
+//
+//        });
+//
+//        // Mientras el video corre, frenar el juego
+//        gameState = pauseState;
+//    }
+
 
     public void setupGame() {
         aSetter.setObject();
         aSetter.setNPC();
        // playMusic(0);
         gameState = titleState;
-        videos.loadVideo("monu", "res/Videos/1002.mp4");
         videos.loadVideo("pavon", "res/Videos/Mercado.mp4");
+        videos.loadVideo("monu", "res/Videos/1002.mp4");
+
     }
 
     public void startGameThread() {
@@ -127,6 +206,30 @@ public class gamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+            if(gameState == playState){
+                // Actualizar player
+                player.update();
+
+                // Actualizar NPCs
+                for (int i = 0; i < npc[1].length; i++) {
+                    if (npc[currentMap][i] != null) {
+                        npc[currentMap][i].update();
+                    }
+                }
+
+                // Revisar eventos
+                eHandler.checkEvent(); // <- esto es clave
+
+                // Actualizar reloj
+                reloj.actualizarTiempo();
+                reloj.derrota();
+            }
+
+            if(gameState == pauseState) {
+                // juego en pausa, no actualizar nada
+            }
+
+
         //pausa o reanudacion del juego
         if(gameState == playState){
 
@@ -252,6 +355,7 @@ public class gamePanel extends JPanel implements Runnable {
         sonido.setFile(i);
         sonido.play();
     }
+
 
 
 

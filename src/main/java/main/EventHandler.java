@@ -69,7 +69,14 @@ public class EventHandler {
             if (hit(0, 15, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda izquierda");
             }
-
+            else if(hit(0, 48, 1, Direccion.Any)){
+                boolean sucedio=true;
+                if(sucedio == true){
+                    sucedio = false;
+                    gp.videos.play("monu");
+                    System.out.println("video");
+                }
+            }
             // Entrar tienda derecha
             else if (hit(0, 16, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda derecha");
@@ -84,6 +91,11 @@ public class EventHandler {
             else if (hit(0, 16, 15, Direccion.Abajo)) {
                 System.out.println("Saliste de la tienda");
                 mensajeLugar(gp.gameState);
+
+                if (!gp.videoMostrado) {          // solo reproducir una vez
+                    gp.showVideo("pavon");        // llamar al video
+                    gp.videoMostrado = true;      // marcar como mostrado
+                }
             }
 
             // Interactuar con entorno
@@ -96,7 +108,7 @@ public class EventHandler {
             }
             // Teleport Planetario
             else if (hit(1, 37, 33, Direccion.Any)) {
-                    teleport(2, 4, 47);
+                    teleport(2, 4, 48);
             }
             // Teleport Planetario2
             else if (hit(2, 9, 28, Direccion.Any)) {
@@ -106,6 +118,7 @@ public class EventHandler {
             else if (hit(2, 40, 9, Direccion.Any)) {
                 teleport(2, 9, 28);
             }
+
             else if (llamo == false) {
                 if (hit(0, 20, 14, Direccion.Derecha)) {
                     llamada(gp.gameState);
@@ -117,16 +130,6 @@ public class EventHandler {
                     llamo = true;
                     System.out.println("Aaaaaaaa2");
                 }
-
-            }
-            else if (npcAila.pelea) {
-                iniciarCombate(reloj, npcPan);
-            }
-
-            else if(hit(0, 45, 4, Direccion.Any)){
-                gp.videos.play("monu");
-                System.out.println("video");
-
             }
         }
     }

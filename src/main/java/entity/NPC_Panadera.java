@@ -8,6 +8,8 @@
 
     public class NPC_Panadera extends Entity {
         public boolean tienePan = false;
+        public boolean dialogoTerminado = false;
+        public int dialogueIndexNPC = 0;
         public NPC_Panadera(gamePanel gp) {
             super(gp);
             direction = Direccion.Abajo;
@@ -64,9 +66,15 @@
                     dialogues[2] = "Si no tienes el cupon... \nEntonces vete... \nEspero clientes";
                 }
             }
+            // Mostrar línea por línea
+            if (dialogues[dialogueIndexNPC] != null) {
+                gp.ui.currentDialogue = dialogues[dialogueIndexNPC];
 
-
-            //podemos personalizar las caracteristicas principales de cada personaje
-            super.speak();
+                dialogueIndexNPC++;
+            } else {
+                dialogoTerminado = true; // terminó todo el diálogo
+                gp.ui.currentDialogue = "Ya te di el pan de ajo. Siguiente!!!"; // opcional
+            }
         }
-    }
+        }
+
