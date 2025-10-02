@@ -99,12 +99,12 @@ public void getTileImage() {
     setup(64, "64", true);
     setup(65, "65", true);
     setup(66, "66", false);
-    setup(67, "00", false);
-    setup(68, "00", false);
-    setup(69, "00", false);
+    setup(67, "67", false);
+    setup(68, "68", true);
+    setup(69, "69", true);
     setup(70, "70", false);
     setup(71, "71", false);
-    setup(72, "72", false);
+    setup(72, "72", true);
     setup(73, "73", true);
     setup(74, "74", false);
     setup(75, "75", true);
@@ -113,6 +113,10 @@ public void getTileImage() {
     setup(78, "78", false);
     setup(79, "79", false);
     setup(80, "80", true);
+    setup(81, "81", false);
+    setup(82, "82", false);
+    setup(83, "83", false);
+    setup(84, "84", true);
     }
 
     public void setup(int index, String imageName, boolean collision) {

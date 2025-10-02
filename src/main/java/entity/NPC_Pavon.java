@@ -1,6 +1,8 @@
 package entity;
 
 import main.gamePanel;
+import object.OBJ_panDeAjo;
+import object.OBJ_valePorComida;
 import varios.Direccion;
 
 import java.util.Random;
@@ -32,7 +34,7 @@ public class NPC_Pavon extends Entity {
         dialogues[1] = "Hola cuanto tiempo...";
         dialogues[2] = "Me tengo que ir pero ten, \nde seguro te viene bien\n algo de comer";
         dialogues[3] = "Buena suerte";
-        tieneCupon = true;
+//        tieneCupon = true;
     }
 
     public void setColisionArea() {
@@ -67,6 +69,10 @@ public class NPC_Pavon extends Entity {
 
     // sobreescritura de la variable speak de entidades por personajes
     public void speak() {
+        if(tieneCupon == false) {
+            gp.player.inventory.add(new OBJ_valePorComida(gp));
+            tieneCupon = true;
+        }
         //podemos personalizar las caracteristicas principales de cada personaje
         super.speak();
     }

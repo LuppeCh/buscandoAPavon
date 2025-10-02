@@ -72,6 +72,9 @@ public class UI {
 
     //Dialogo
     public String currentDialogue = "";
+    public void setDialogue(String dialogue){
+        this.currentDialogue = dialogue;
+    }
     // Tiempo de juego
     Reloj reloj = new Reloj(gp, this);
     //Llamar a derrota
@@ -203,22 +206,22 @@ public class UI {
             g2.setFont(arial_80B);
             g2.setColor(Color.RED);
 
-            String text = "Que malo, has perdido!!!";
+            String text = "Revisas el gps y...";
             int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             int x = gp.screenWidth / 2 - textLength / 2;
             int y = gp.screenHeight / 2;
             g2.drawString(text, x, y);
 
-            text = "No has encontrado a Peivon!!";
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 - (gp.tileSize * 3);
-            g2.drawString(text, x, y);
-
-            text = "Pasaron los: " + tiempoTexto;
+            text = "Continuará...";
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gp.screenWidth / 2 - textLength / 2;
             y = gp.screenHeight / 2 - (gp.tileSize * 4);
+            g2.drawString(text, x, y);
+
+            text = "Hecho por: Juli, Lupe, Ailu y Fifi.";
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gp.screenWidth / 2 - textLength / 2;
+            y = gp.screenHeight / 2 + (gp.tileSize * 4);
             g2.drawString(text, x, y);
             // NO detener el gameThread automáticamente
         }
