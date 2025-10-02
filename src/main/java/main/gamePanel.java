@@ -49,6 +49,7 @@ public class gamePanel extends JPanel implements Runnable {
         public EventHandler eHandler = new EventHandler(this);
         public Entity obj[][] = new Entity[maxMap][10];   // objetos
         public Entity npc[][] = new Entity[maxMap][10];   // npcs
+         public boolean spawnPan = false;
 
         ArrayList<Entity> entityList = new ArrayList<>();
         
