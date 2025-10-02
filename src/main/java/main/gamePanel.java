@@ -3,20 +3,23 @@ package main;
 import Tiles.TileManager;
 import entity.Entity;
 import entity.Player;
+import javafx.stage.Stage;
 import varios.Reloj;
-
+import java.io.File;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+
 public class gamePanel extends JPanel implements Runnable {
         // configuración de pantalla
         final int originalTileSize = 16;
-        final int scale = 3;
+        final int scale = 4;
 
-        public int tileSize = originalTileSize * scale;
+    public VideosSwing videos;
+    public int tileSize = originalTileSize * scale;
         public final int maxScreenCol = 16;
         public final int maxScreenRow = 12;
         public final int screenWidth = tileSize * maxScreenCol;
@@ -70,6 +73,12 @@ public class gamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.reloj = new Reloj(this, ui);
+
+        videos = new VideosSwing(screenWidth, screenHeight);
+
+        // Agregar el JFXPanel al JPanel del juego
+        this.add(videos.getFXPanel());
+        videos.getFXPanel().setVisible(true);
     }
 
     public void setupGame() {
@@ -77,6 +86,8 @@ public class gamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
        // playMusic(0);
         gameState = titleState;
+        videos.loadVideo("monu", "res/Videos/1002.mp4");
+        videos.loadVideo("pavon", "res/Videos/Mercado.mp4");
     }
 
     public void startGameThread() {
@@ -241,4 +252,8 @@ public class gamePanel extends JPanel implements Runnable {
         sonido.setFile(i);
         sonido.play();
     }
+
+
+
+
 }

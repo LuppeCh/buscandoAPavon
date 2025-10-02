@@ -64,6 +64,7 @@ public class KeyHandler implements KeyListener{
                             gp.gameState = gp.playState;
                             gp.ui.titleScreenState = 1;
                             gp.playMusic(0);
+                            gp.videos.play("pavon");
                         }
                         if(gp.ui.commandNum == 1) {
                             System.out.println("Haz algunas cosas especificas de...");

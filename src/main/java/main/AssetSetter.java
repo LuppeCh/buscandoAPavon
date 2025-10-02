@@ -55,8 +55,8 @@ public class AssetSetter {
 //
         mapNum = 2;
         gp.npc[mapNum][3] = new NPC_LupeMarciana(gp); // se crea el npc
-        gp.npc[mapNum][3].worldX = 5 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
-        gp.npc[mapNum][3].worldY = 45 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+        gp.npc[mapNum][3].worldX = 45 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+        gp.npc[mapNum][3].worldY = 5 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
         gp.npc[mapNum][3].mapIndex = mapNum;
 //            mapNum = 1;
 //            gp.npc[mapNum][0] = new NPC_Pavon(gp); // se crea el npc

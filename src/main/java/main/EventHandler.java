@@ -118,10 +118,15 @@ public class EventHandler {
                     System.out.println("Aaaaaaaa2");
                 }
 
-
             }
             else if (npcAila.pelea) {
                 iniciarCombate(reloj, npcPan);
+            }
+
+            else if(hit(0, 45, 4, Direccion.Any)){
+                gp.videos.play("monu");
+                System.out.println("video");
+
             }
         }
     }

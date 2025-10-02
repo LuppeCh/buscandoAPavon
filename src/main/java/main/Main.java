@@ -13,7 +13,6 @@ public class Main {
 
         gamePanel gamePanel = new gamePanel();
 
-
         window.add(gamePanel);
 
         window.pack();
