@@ -1,18 +1,30 @@
 package main;
 
+import varios.Dados;
+import varios.Reloj;
 import varios.Direccion;
+import entity.NPC_Aila;
+import entity.NPC_Panadera;
 
 import java.awt.*;
 
 public class EventHandler {
     gamePanel gp;
+    NPC_Aila npcAila;
+    NPC_Panadera npcPan;
     EventRect eventRect [][][];
     private boolean llamo = false;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int numDados = 1; //numero de dados en el array
+    byte numCaras = 6; // numero de caras del dado
+
+    private Reloj reloj;
 
     public EventHandler (gamePanel gp) {
         this.gp = gp;
+        npcAila = new NPC_Aila(this.gp);
+        npcPan = new NPC_Panadera(this.gp);
 
         eventRect = new EventRect[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
@@ -106,6 +118,10 @@ public class EventHandler {
                     System.out.println("Aaaaaaaa2");
                 }
 
+
+            }
+            else if (npcAila.pelea) {
+                iniciarCombate(reloj, npcPan);
             }
         }
     }
@@ -166,4 +182,31 @@ public class EventHandler {
         gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
     }
 
-}
+    public void iniciarCombate(Reloj reloj, NPC_Panadera npcPan){
+        this.reloj = reloj;
+
+        // Primero, revisamos si el jugador tiene pan
+        if (!npcPan.tienePan) {
+            // No tiene pan -> muere
+            gp.gameState = gp.gameOverState;
+            System.out.println("No tenías pan de ajo, perdiste.");
+            return;
+        }
+
+        // Tirada de dado en el momento
+        Dados tiradas = new Dados(numCaras, numDados);
+        int[] resultado = tiradas.tirarDados();
+        int tirada = resultado[0];
+
+        if (tirada <= 4){ // 1 a 4 -> sumas tiempo
+            reloj.agregarTiempo(180);
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "\"Ah! Está bien! \n Te diré todo lo que sé\"";
+        } else { // 5 o 6 -> acepta por las buenas
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "\"Bueno, solo por que me das pena\"";
+        }
+    }
+
+    }
+
