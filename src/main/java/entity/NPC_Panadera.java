@@ -47,11 +47,11 @@
                     dialogues[0] = "Uh... Que es eso? ";
                     dialogues[1] = "Un cupon de comida?";
                     dialogues[2] = "Felicidades.... supongo";
-                    dialogues[3] = "Te ofresco 3 opciones: Chipa, Medialunas o Pan de Ajo!!";
+                    dialogues[3] = "Te ofrezco 3 opciones: \n Chipa, Medialunas o... \n Pan de Ajo!!";
                     dialogues[4] = ".";
                     dialogues[5] = ". .";
                     dialogues[6] = ". . .";
-                    dialogues[7] = "Me equivoque, solo nos queda Pan de Ajo... Disfrutalo!!!";
+                    dialogues[7] = "Me equivoque, solo nos queda \n Pan de Ajo... \n Disfrutalo!!!";
                     gp.player.removeItem("vale por comida");
                     if(tienePan == false){
                         gp.player.inventory.add(new OBJ_panDeAjo(gp));

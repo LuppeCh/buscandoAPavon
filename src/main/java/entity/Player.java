@@ -61,7 +61,6 @@ public class Player extends Entity {
     public void setItems() {
         //cargar el listado de los items iniciales
         inventory.add(new OBJ_sube(gp));
-        inventory.add(new OBJ_valePorComida(gp));
 
     }
     public void getPlayersImage() {

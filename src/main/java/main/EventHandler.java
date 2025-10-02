@@ -2,10 +2,12 @@ package main;
 
 import varios.Direccion;
 
+import java.awt.*;
+
 public class EventHandler {
     gamePanel gp;
     EventRect eventRect [][][];
-
+    private boolean llamo = false;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
 
@@ -76,18 +78,34 @@ public class EventHandler {
             else if (hit(0, 11, 15, Direccion.Arriba)) {
                 interactuarEntorno(0, 11, 15, gp.gameState);
             }
-
-            // Teleport Planetario
-            else if (hit(0, 6, 33, Direccion.Any)) {
-                    teleport(1, 1, 45);
+            // Teleport Aila
+            else if (hit(0, 20, 26, Direccion.Any)) {
+                teleport(1, 37, 33);
             }
-            // Teleport alien
-            else if (hit(1, 7, 27, Direccion.Any)) {
-                teleport(1, 45, 9);
+            // Teleport Planetario
+            else if (hit(1, 37, 33, Direccion.Any)) {
+                    teleport(2, 4, 47);
             }
             // Teleport Planetario2
-            else if (hit(1, 45, 10, Direccion.Any)) {
-                teleport(1, 7, 28);
+            else if (hit(2, 9, 28, Direccion.Any)) {
+                teleport(2, 40, 9);
+            }
+            // Teleport exitPlanetario2
+            else if (hit(2, 40, 9, Direccion.Any)) {
+                teleport(2, 9, 28);
+            }
+            else if (llamo == false) {
+                if (hit(0, 20, 14, Direccion.Derecha)) {
+                    llamada(gp.gameState);
+                    llamo = true;
+                    System.out.println("Aaaaaaaa");
+                }
+                else if (hit(0, 20, 15, Direccion.Derecha)) {
+                    llamada(gp.gameState);
+                    llamo = true;
+                    System.out.println("Aaaaaaaa2");
+                }
+
             }
         }
     }
@@ -141,4 +159,11 @@ public class EventHandler {
         canTouchEvent = false;
         gp.ui.currentDialogue = "Teleport";
     }
+
+    public void llamada(int gameState) {
+        gp.gameState = gp.dialogueState;
+        gp.playSE(6);
+        gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
+    }
+
 }
