@@ -31,7 +31,7 @@ public class Pelea {
             gp.reloj.agregarTiempo(180);
             System.out.println("salio 1/2/3/4 Se agregaron 3 minutos");
             gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "\"Ah! Está bien! \n Te diré todo lo que sé \n Hay una nave secuestrando gente\n Te sugiero ir al pllanetario\"";
+            gp.ui.currentDialogue = "\"Ah! Esta bien! \n Te dire todo lo que se \n Hay una nave secuestrando gente\n Te sugiero ir al planetario\"";
         } else { // 5 o 6 -> acepta por las buenas
             gp.gameState = gp.dialogueState;
             System.out.println("salio 5/6 no se agrega nada");

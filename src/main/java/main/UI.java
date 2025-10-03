@@ -1,6 +1,8 @@
 package main;
 
 
+import entity.Player;
+
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -377,22 +379,22 @@ public class UI {
 
         // volver a jugar
         g2.setFont(g2.getFont().deriveFont(30f));
-        text = "Volver a jugar";
+//        text = "Volver a jugar";
+//        x = getXforCenteredText(text);
+//        y += gp.tileSize * 4;
+//        g2.drawString(text, x, y);
+//
+//        if(commandNum == 0){
+//            g2.drawString(">", x-40, y);
+//        }
+
+        //Volver al titulo principal
+        text = "Salir";
         x = getXforCenteredText(text);
-        y += gp.tileSize * 4;
+        y += 60;
         g2.drawString(text, x, y);
 
         if(commandNum == 0){
-            g2.drawString(">", x-40, y);
-        }
-
-        //Volver al titulo principal
-        text = "Volver al menu";
-        x = getXforCenteredText(text);
-        y += 35;
-        g2.drawString(text, x, y);
-
-        if(commandNum == 1){
             g2.drawString(">", x-40, y);
         }
 

@@ -212,13 +212,14 @@ public class KeyHandler implements KeyListener{
             if(gp.ui.commandNum == 0) {
                 gp.reloj.reiniciarTiempo();
                 gp.gameState = gp.playState;
-                gp.volverAJugar();
+                System.exit(0);
+//                gp.volverAJugar();
             }
-            else if(gp.ui.commandNum == 1) {
-                gp.gameState = gp.titleState;
-                gp.reloj.reiniciarTiempo();
-                gp.volverAJugar();// nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
-            }
+//            else if(gp.ui.commandNum == 1) {
+//                gp.gameState = gp.titleState;
+//                gp.reloj.reiniciarTiempo();
+//                gp.volverAJugar();// nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
+//            }
         }
     }
 
