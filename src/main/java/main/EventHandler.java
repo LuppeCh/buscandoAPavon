@@ -10,21 +10,15 @@ import java.awt.*;
 
 public class EventHandler {
     gamePanel gp;
-    NPC_Aila npcAila;
-    NPC_Panadera npcPan;
+
     EventRect eventRect [][][];
     private boolean llamo = false;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
-    int numDados = 1; //numero de dados en el array
-    byte numCaras = 6; // numero de caras del dado
 
-    private Reloj reloj;
 
     public EventHandler (gamePanel gp) {
         this.gp = gp;
-        npcAila = new NPC_Aila(this.gp);
-        npcPan = new NPC_Panadera(this.gp);
 
         eventRect = new EventRect[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
@@ -74,6 +68,7 @@ public class EventHandler {
                 if(sucedio == true){
                     sucedio = false;
                     gp.videos.play("monu");
+                    gp.videoMostrado = true;
                     System.out.println("video");
                 }
             }
@@ -85,17 +80,6 @@ public class EventHandler {
             // Esquina
             else if (hit(0, 1, 15, Direccion.Arriba)) {
                 System.out.println("Esquina");
-            }
-
-            // Saliste de la tienda
-            else if (hit(0, 16, 15, Direccion.Abajo)) {
-                System.out.println("Saliste de la tienda");
-                mensajeLugar(gp.gameState);
-
-                if (!gp.videoMostrado) {          // solo reproducir una vez
-                    gp.showVideo("pavon");        // llamar al video
-                    gp.videoMostrado = true;      // marcar como mostrado
-                }
             }
 
             // Interactuar con entorno
@@ -118,17 +102,11 @@ public class EventHandler {
             else if (hit(2, 40, 9, Direccion.Any)) {
                 teleport(2, 9, 28);
             }
-
-            else if (llamo == false) {
-                if (hit(0, 20, 14, Direccion.Derecha)) {
+            else if (hit(0, 20, 14, Direccion.Derecha)|| hit(0, 20, 15, Direccion.Derecha) ) {
+                if(llamo == false){
                     llamada(gp.gameState);
                     llamo = true;
                     System.out.println("Aaaaaaaa");
-                }
-                else if (hit(0, 20, 15, Direccion.Derecha)) {
-                    llamada(gp.gameState);
-                    llamo = true;
-                    System.out.println("Aaaaaaaa2");
                 }
             }
         }
@@ -174,7 +152,6 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row) {
-
         gp.currentMap = map;
         gp.player.worldX = gp.tileSize * col;
         gp.player.worldY = gp.tileSize * row;
@@ -189,32 +166,5 @@ public class EventHandler {
         gp.playSE(6);
         gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
     }
-
-    public void iniciarCombate(Reloj reloj, NPC_Panadera npcPan){
-        this.reloj = reloj;
-
-        // Primero, revisamos si el jugador tiene pan
-        if (!npcPan.tienePan) {
-            // No tiene pan -> muere
-            gp.gameState = gp.gameOverState;
-            System.out.println("No tenías pan de ajo, perdiste.");
-            return;
-        }
-
-        // Tirada de dado en el momento
-        Dados tiradas = new Dados(numCaras, numDados);
-        int[] resultado = tiradas.tirarDados();
-        int tirada = resultado[0];
-
-        if (tirada <= 4){ // 1 a 4 -> sumas tiempo
-            reloj.agregarTiempo(180);
-            gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "\"Ah! Está bien! \n Te diré todo lo que sé\"";
-        } else { // 5 o 6 -> acepta por las buenas
-            gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "\"Bueno, solo por que me das pena\"";
-        }
-    }
-
-    }
+}
 
