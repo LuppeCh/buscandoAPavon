@@ -41,7 +41,7 @@ public class gamePanel extends JPanel implements Runnable {
         public final int screenWidth = tileSize * maxScreenCol;
         public final int screenHeight = tileSize * maxScreenRow;
         public boolean videoMostrado = false; // para el video de salida de la tienda
-
+        public boolean videoMostrado2 = false;
 
 
     // configuraciones del mundo
@@ -85,6 +85,7 @@ public class gamePanel extends JPanel implements Runnable {
     public final int dialogueState = 3;
     public final int gameOverState = 4;
     public final int characterState = 5;
+    public final int videoState = 6;
 
 
     public gamePanel() {
@@ -97,18 +98,16 @@ public class gamePanel extends JPanel implements Runnable {
 
         videos = new VideosSwing(screenWidth, screenHeight);
 
-
-        // CAMBIO IMPORTANTE: usar layout nulo
-        this.setLayout(null);
-        this.add(videos.getFXPanel());
+        this.setLayout(null); // layout nulo para poder posicionar libremente
         videos.getFXPanel().setBounds(0, 0, screenWidth, screenHeight);
         videos.getFXPanel().setVisible(false);
+        this.add(videos.getFXPanel());
 
         // Agregar el JFXPanel al JPanel del juego
         this.add(videos.getFXPanel());
         videos.getFXPanel().setVisible(false);
-        videos.loadVideo("pavon", "res/Videos/Mercado.mp4");
-        videos.loadVideo("monu", "res/Videos/1002.mp4");
+        videos.loadVideo("pavon", "res/Videos/MercadoPatio.mp4");
+        videos.loadVideo("monu", "res/Videos/Monumento.mp4");
 
 
     }
@@ -117,55 +116,34 @@ public class gamePanel extends JPanel implements Runnable {
         System.out.println("=== Mostrando video: " + key + " ===");
 
         // Pausar el juego mientras corre el video
-        gameState = pauseState;
+        gameState = videoState;
 
         // Hacer visible el panel de video
         videos.getFXPanel().setVisible(true);
+        videos.getFXPanel().revalidate();
+        videos.getFXPanel().repaint();
 
-        // Reproducir el video
-        videos.play(key);
+        Platform.runLater(() -> {
+            videos.play(key);
 
-        // Cuando termine el video, ocultar el panel y volver a jugar
-        if (videos.currentPlayer != null) {
-            videos.currentPlayer.setOnEndOfMedia(() -> {
-                videos.stop();
-                videos.getFXPanel().setVisible(false);
-                gameState = playState;
-
-
-            });
-        }
+            // Cuando termine, ocultar panel y volver a jugar
+            if (videos.currentPlayer != null) {
+                videos.currentPlayer.setOnEndOfMedia(() -> {
+                    Platform.runLater(() -> {
+                        videos.stop();
+                        videos.getFXPanel().setVisible(false);
+                        gameState = playState;
+                    });
+                });
+            }
+        });
     }
-
-
-//    public void showVideo(String key) {
-//        // Mostrar el panel del video
-//        videos.getFXPanel().setVisible(true);
-//        videos.play(key);
-//
-//        // Cuando termine, ocultar el panel y seguir el juego
-//        videos.currentPlayer.setOnEndOfMedia(() -> {
-//            videos.stop();
-//            videos.getFXPanel().setVisible(false);
-//            gameState = playState; // volver a jugar
-//
-//            System.out.println(new File("res/Videos/Mercado.mp4").getAbsolutePath());
-//
-//
-//        });
-//
-//        // Mientras el video corre, frenar el juego
-//        gameState = pauseState;
-//    }
-
 
     public void setupGame() {
         aSetter.setObject();
         aSetter.setNPC();
        // playMusic(0);
         gameState = titleState;
-        videos.loadVideo("pavon", "res/Videos/Mercado.mp4");
-        videos.loadVideo("monu", "res/Videos/1002.mp4");
 
     }
 
@@ -274,6 +252,11 @@ public class gamePanel extends JPanel implements Runnable {
             ui.draw(g2);
 
         }
+        if (gameState == videoState) {
+            // Solo dejamos que se vea el JFXPanel
+            // No dibujamos nada del juego debajo
+            return;
+        }
 
         // OTHERS
         else {
@@ -355,9 +338,4 @@ public class gamePanel extends JPanel implements Runnable {
         sonido.setFile(i);
         sonido.play();
     }
-
-
-
-
-
 }

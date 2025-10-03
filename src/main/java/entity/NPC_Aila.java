@@ -9,6 +9,7 @@ public class NPC_Aila extends Entity {
     public boolean dialogoTerminado = false;
     public int dialogueIndexNPC = 0;
     private int contador = 0;
+    public boolean activarFinal =false;
 
     public NPC_Aila(gamePanel gp) {
         super(gp);
@@ -69,6 +70,7 @@ public class NPC_Aila extends Entity {
         // Activar pelea al final del diálogo
         if (contador == 14 && !dialogoTerminado) {
             activarPelea();
+            activarFinal = true;
         }
     }
 

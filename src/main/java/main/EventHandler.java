@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import varios.Dados;
 import varios.Reloj;
 import varios.Direccion;
@@ -63,14 +64,23 @@ public class EventHandler {
             if (hit(0, 15, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda izquierda");
             }
-            else if(hit(0, 48, 1, Direccion.Any)){
-                boolean sucedio=true;
-                if(sucedio == true){
-                    sucedio = false;
-                    gp.videos.play("monu");
+            //video
+            else if(hit(0, 21, 15, Direccion.Derecha)||hit(0, 21, 14, Direccion.Derecha)){
+                if(!gp.videoMostrado){
                     gp.videoMostrado = true;
-                    System.out.println("video");
+                    gp.showVideo("pavon");
                 }
+            }
+            else if(hit(2, 8, 28, Direccion.Izquierda)) {
+                if (gp.npc[1][2] instanceof NPC_Aila) {
+                    NPC_Aila aila = (NPC_Aila) gp.npc[1][2];
+                    if (!gp.videoMostrado2 && aila.activarFinal) {
+                        gp.videoMostrado2 = true;
+                        gp.showVideo("monu");
+                        gp.ui.gameOver = true;
+                        gp.playSE(7);
+                }
+            }
             }
             // Entrar tienda derecha
             else if (hit(0, 16, 14, Direccion.Arriba)) {
@@ -106,7 +116,7 @@ public class EventHandler {
                 if(llamo == false){
                     llamada(gp.gameState);
                     llamo = true;
-                    System.out.println("Aaaaaaaa");
+//                    System.out.println("Aaaaaaaa");
                 }
             }
         }

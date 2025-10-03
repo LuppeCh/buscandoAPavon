@@ -43,7 +43,7 @@ public class VideosSwing {
     public void loadVideo(String key, String videoFilePath) {
         File file = new File(videoFilePath);
         if (!file.exists()) {
-            System.out.println("❌ Video no encontrado: " + videoFilePath);
+            System.out.println(" Video no encontrado: " + videoFilePath);
             return;
         }
         Media media = new Media(file.toURI().toString());

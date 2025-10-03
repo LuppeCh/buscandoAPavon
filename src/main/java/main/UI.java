@@ -226,10 +226,17 @@ public class UI {
             g2.setFont(arial_80B);
             g2.setColor(Color.RED);
 
-            String text = "Revisas el gps y...";
+
+            String text = "ir al monumento de la bandera...";
             int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             int x = gp.screenWidth / 2 - textLength / 2;
             int y = gp.screenHeight / 2;
+            g2.drawString(text, x, y);
+
+            text = "Luego de revisar el GPS e ";
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gp.screenWidth / 2 - textLength / 2;
+            y = gp.screenHeight / 2 - (gp.tileSize * 2);
             g2.drawString(text, x, y);
 
             text = "Continuará...";

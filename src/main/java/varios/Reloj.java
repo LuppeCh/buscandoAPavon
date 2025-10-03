@@ -41,7 +41,7 @@ public class Reloj {
 
     //Calculamos la condicion de derrota
     public void derrota() {
-        if(min >= 10){
+        if(min >= 7){
             gp.gameState = gp.gameOverState;
             gp.playSE(4);
         }
