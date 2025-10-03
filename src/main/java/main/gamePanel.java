@@ -42,7 +42,7 @@ public class gamePanel extends JPanel implements Runnable {
         public final int screenHeight = tileSize * maxScreenRow;
         public boolean videoMostrado = false; // para el video de salida de la tienda
         public boolean videoMostrado2 = false;
-
+        public boolean estaPavon = true;
 
     // configuraciones del mundo
         public final int maxWorldCol = 50;
