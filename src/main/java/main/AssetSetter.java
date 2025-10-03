@@ -11,6 +11,7 @@ import main.gamePanel;
 
 public class AssetSetter {
     gamePanel gp;
+
     public AssetSetter(gamePanel gp) {
         this.gp =gp;
     }
@@ -41,11 +42,12 @@ public class AssetSetter {
         gp.npc[mapNum][0].worldX = 13 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
         gp.npc[mapNum][0].worldY = 5 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
         gp.npc[mapNum][0].mapIndex = mapNum;
-
-        gp.npc[mapNum][1] = new NPC_Pavon(gp); // se crea el npc
-        gp.npc[mapNum][1].worldX = 44 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
-        gp.npc[mapNum][1].worldY = 7 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
-        gp.npc[mapNum][1].mapIndex = mapNum;
+        if(!gp.videoMostrado){
+            gp.npc[mapNum][1] = new NPC_Pavon(gp); // se crea el npc
+            gp.npc[mapNum][1].worldX = 44 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+            gp.npc[mapNum][1].worldY = 7 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+            gp.npc[mapNum][1].mapIndex = mapNum;
+        }
 
         mapNum = 1;
         gp.npc[mapNum][2] = new NPC_Aila(gp); // se crea el npc

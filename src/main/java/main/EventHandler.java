@@ -1,11 +1,9 @@
 package main;
 
-import entity.Entity;
+import entity.*;
 import varios.Dados;
 import varios.Reloj;
 import varios.Direccion;
-import entity.NPC_Aila;
-import entity.NPC_Panadera;
 
 import java.awt.*;
 
@@ -14,6 +12,8 @@ public class EventHandler {
 
     EventRect eventRect [][][];
     private boolean llamo = false;
+    private  boolean piensa =false;
+    private  boolean vioGPS =false;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
 
@@ -59,64 +59,68 @@ public class EventHandler {
             canTouchEvent = true;
         }
         if (canTouchEvent) {
-
-            // Entrar tienda izquierda
-            if (hit(0, 15, 14, Direccion.Arriba)) {
-                System.out.println("Entrar tienda izquierda");
-            }
             //video
-            else if(hit(0, 21, 15, Direccion.Derecha)||hit(0, 21, 14, Direccion.Derecha)){
+            if(hit(0, 24, 2, Direccion.Izquierda)||hit(0, 24, 3, Direccion.Izquierda)||hit(0, 24, 4, Direccion.Izquierda)||hit(0, 24, 27, Direccion.Izquierda)||hit(0, 24, 28, Direccion.Izquierda)||hit(0, 24, 29, Direccion.Izquierda)){
                 if(!gp.videoMostrado){
                     gp.videoMostrado = true;
                     gp.showVideo("pavon");
+                    if(gp.videoMostrado && gp.npc[0][1] instanceof NPC_Pavon) {
+                        gp.npc[0][1] = null;
+                    }
                 }
             }
             else if(hit(2, 8, 28, Direccion.Izquierda)) {
-                if (gp.npc[1][2] instanceof NPC_Aila) {
+                if (gp.npc[1][2] instanceof NPC_Aila && gp.npc[2][3]instanceof NPC_LupeMarciana) {
                     NPC_Aila aila = (NPC_Aila) gp.npc[1][2];
-                    if (!gp.videoMostrado2 && aila.activarFinal) {
+                    NPC_LupeMarciana marciana = (NPC_LupeMarciana) gp.npc[2][3];
+                    if (!gp.videoMostrado2 && aila.activarFinal && marciana.tieneGPS) {
                         gp.videoMostrado2 = true;
                         gp.showVideo("monu");
                         gp.ui.gameOver = true;
                         gp.playSE(7);
+                    }
                 }
             }
-            }
-            // Entrar tienda derecha
-            else if (hit(0, 16, 14, Direccion.Arriba)) {
-                System.out.println("Entrar tienda derecha");
-            }
-
-            // Esquina
-            else if (hit(0, 1, 15, Direccion.Arriba)) {
-                System.out.println("Esquina");
-            }
-
             // Interactuar con entorno
-            else if (hit(0, 11, 15, Direccion.Arriba)) {
-                interactuarEntorno(0, 11, 15, gp.gameState);
+            else if (hit(0, 5, 7, Direccion.Arriba)) {
+                interactuarEntorno(0, 5, 7, gp.dialogueState);
             }
             // Teleport Aila
             else if (hit(0, 20, 26, Direccion.Any)) {
-                teleport(1, 37, 33);
+                teleport(1, 38, 32);
             }
             // Teleport Planetario
-            else if (hit(1, 37, 33, Direccion.Any)) {
+            else if (hit(1, 38, 32, Direccion.Any)) {
                     teleport(2, 4, 48);
             }
             // Teleport Planetario2
             else if (hit(2, 9, 28, Direccion.Any)) {
                 teleport(2, 40, 9);
             }
-            // Teleport exitPlanetario2
+            // Teleport exit Planetario2
             else if (hit(2, 40, 9, Direccion.Any)) {
                 teleport(2, 9, 28);
             }
-            else if (hit(0, 20, 14, Direccion.Derecha)|| hit(0, 20, 15, Direccion.Derecha) ) {
+            else if (hit(0, 19, 14, Direccion.Derecha)|| hit(0, 19, 15, Direccion.Derecha) ) {
                 if(llamo == false){
-                    llamada(gp.gameState);
+                    llamada(gp.dialogueState);
                     llamo = true;
-//                    System.out.println("Aaaaaaaa");
+                }
+            }
+            else if (hit(0,20,14,Direccion.Derecha)||hit(0,20,15, Direccion.Derecha)){
+                if(!piensa){
+                    mensajeLugar(gp.dialogueState);
+                    mensajeLugar(gp.dialogueState);
+                    piensa =true;
+                }
+            }
+            else if (hit(2,41,9,Direccion.Any)){
+                if(gp.npc[2][3]instanceof NPC_LupeMarciana){
+                    NPC_LupeMarciana marciana = (NPC_LupeMarciana) gp.npc[2][3];
+                    if(marciana.tieneGPS && !vioGPS){
+                        mensajeGPS(gp.dialogueState);
+                        vioGPS =true;
+                    }
                 }
             }
         }
@@ -150,7 +154,7 @@ public class EventHandler {
 
     public void mensajeLugar(int gameState) {
         gp.gameState = gameState;
-        gp.ui.currentDialogue = "Saliste de la tienda";
+        gp.ui.currentDialogue = "*PENSANDO*\nPavon dijo que se iba a la galeria...\nAlla voy Pavon";
         canTouchEvent = false;
     }
     public void interactuarEntorno(int map, int col, int row, int gameState) {
@@ -172,9 +176,14 @@ public class EventHandler {
     }
 
     public void llamada(int gameState) {
-        gp.gameState = gp.dialogueState;
+        gp.gameState = gameState;
         gp.playSE(6);
         gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
+    }
+    public void mensajeGPS(int gameState) {
+        gp.gameState = gameState;
+        gp.ui.currentDialogue = "*PENSANDO*\nEl GPS dice qque esta en el monumento";
+        canTouchEvent = false;
     }
 }
 
