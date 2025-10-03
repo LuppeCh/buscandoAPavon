@@ -35,9 +35,13 @@ public class Reloj {
         }
     }
 
+    public void agregarTiempo(int segundosExtra) {
+        playTime += segundosExtra * 1000.0; // convierto segundos a milisegundos
+    }
+
     //Calculamos la condicion de derrota
     public void derrota() {
-        if(min >= 10){
+        if(min >= 7){
             gp.gameState = gp.gameOverState;
             gp.playSE(4);
         }
@@ -66,4 +70,6 @@ public class Reloj {
     public int getMilisegundos() {
         return ms;
     }
+
+
 }

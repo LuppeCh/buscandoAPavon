@@ -1,5 +1,7 @@
 package main;
 
+import entity.NPC_Aila;
+import entity.NPC_LupeMarciana;
 import entity.NPC_Panadera;
 import entity.NPC_Pavon;
 import object.OBJ_gpsNave;
@@ -44,15 +46,18 @@ public class AssetSetter {
         gp.npc[mapNum][1].worldX = 44 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
         gp.npc[mapNum][1].worldY = 7 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
         gp.npc[mapNum][1].mapIndex = mapNum;
-//
-//        gp.npc[mapNum][1] = new NPC_Pavon(gp); // se crea el npc
-//        gp.npc[mapNum][1].worldX = 22 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
-//        gp.npc[mapNum][1].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
-//
-//        gp.npc[mapNum][2] = new NPC_Pavon(gp); // se crea el npc
-//        gp.npc[mapNum][2].worldX = 23 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
-//        gp.npc[mapNum][2].worldY = 24 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
 
+        mapNum = 1;
+        gp.npc[mapNum][2] = new NPC_Aila(gp); // se crea el npc
+        gp.npc[mapNum][2].worldX = 18 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+        gp.npc[mapNum][2].worldY = 23 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+        gp.npc[mapNum][2].mapIndex = mapNum;
+//
+        mapNum = 2;
+        gp.npc[mapNum][3] = new NPC_LupeMarciana(gp); // se crea el npc
+        gp.npc[mapNum][3].worldX = 45 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.
+        gp.npc[mapNum][3].worldY = 5 * gp.tileSize; // se coloca el NPC en la posicion 11 del eje Y.A modificar.
+        gp.npc[mapNum][3].mapIndex = mapNum;
 //            mapNum = 1;
 //            gp.npc[mapNum][0] = new NPC_Pavon(gp); // se crea el npc
 //            gp.npc[mapNum][0].worldX = 45 * gp.tileSize; // se coloca el NPC en la posicion 32 del eje X.A modificar.

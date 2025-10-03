@@ -4,9 +4,27 @@ import Tiles.TileManager;
 import entity.Entity;
 import entity.Player;
 import varios.Reloj;
+import javax.swing.JFrame;
 
+// JavaFX
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+
+// Swing
 import javax.swing.JPanel;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+
+// AWT
 import java.awt.*;
+
+// Otros
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,15 +32,19 @@ import java.util.Comparator;
 public class gamePanel extends JPanel implements Runnable {
         // configuración de pantalla
         final int originalTileSize = 16;
-        final int scale = 3;
+        final int scale = 4;
 
-        public int tileSize = originalTileSize * scale;
+    public VideosSwing videos;
+    public int tileSize = originalTileSize * scale;
         public final int maxScreenCol = 16;
         public final int maxScreenRow = 12;
         public final int screenWidth = tileSize * maxScreenCol;
         public final int screenHeight = tileSize * maxScreenRow;
+        public boolean videoMostrado = false; // para el video de salida de la tienda
+        public boolean videoMostrado2 = false;
 
-        // configuraciones del mundo
+
+    // configuraciones del mundo
         public final int maxWorldCol = 50;
         public final int maxWorldRow = 50;
         public final int maxMap =10;
@@ -33,7 +55,7 @@ public class gamePanel extends JPanel implements Runnable {
         int FPS = 60;
 
         // Reloj
-        private Reloj reloj;
+        public Reloj reloj;
         TileManager tileM = new TileManager(this);
 
         public KeyHandler keyH = new KeyHandler(this);
@@ -52,7 +74,9 @@ public class gamePanel extends JPanel implements Runnable {
          public boolean spawnPan = false;
 
         ArrayList<Entity> entityList = new ArrayList<>();
-        
+
+
+
     //GAME STATES
     public int gameState;
     public final int titleState = 0;
@@ -61,6 +85,7 @@ public class gamePanel extends JPanel implements Runnable {
     public final int dialogueState = 3;
     public final int gameOverState = 4;
     public final int characterState = 5;
+    public final int videoState = 6;
 
 
     public gamePanel() {
@@ -70,6 +95,48 @@ public class gamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.reloj = new Reloj(this, ui);
+
+        videos = new VideosSwing(screenWidth, screenHeight);
+
+        this.setLayout(null); // layout nulo para poder posicionar libremente
+        videos.getFXPanel().setBounds(0, 0, screenWidth, screenHeight);
+        videos.getFXPanel().setVisible(false);
+        this.add(videos.getFXPanel());
+
+        // Agregar el JFXPanel al JPanel del juego
+        this.add(videos.getFXPanel());
+        videos.getFXPanel().setVisible(false);
+        videos.loadVideo("pavon", "res/Videos/MercadoPatio.mp4");
+        videos.loadVideo("monu", "res/Videos/Monumento.mp4");
+
+
+    }
+
+    public void showVideo(String key) {
+        System.out.println("=== Mostrando video: " + key + " ===");
+
+        // Pausar el juego mientras corre el video
+        gameState = videoState;
+
+        // Hacer visible el panel de video
+        videos.getFXPanel().setVisible(true);
+        videos.getFXPanel().revalidate();
+        videos.getFXPanel().repaint();
+
+        Platform.runLater(() -> {
+            videos.play(key);
+
+            // Cuando termine, ocultar panel y volver a jugar
+            if (videos.currentPlayer != null) {
+                videos.currentPlayer.setOnEndOfMedia(() -> {
+                    Platform.runLater(() -> {
+                        videos.stop();
+                        videos.getFXPanel().setVisible(false);
+                        gameState = playState;
+                    });
+                });
+            }
+        });
     }
 
     public void setupGame() {
@@ -77,6 +144,7 @@ public class gamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
        // playMusic(0);
         gameState = titleState;
+
     }
 
     public void startGameThread() {
@@ -116,6 +184,30 @@ public class gamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+            if(gameState == playState){
+                // Actualizar player
+                player.update();
+
+                // Actualizar NPCs
+                for (int i = 0; i < npc[1].length; i++) {
+                    if (npc[currentMap][i] != null) {
+                        npc[currentMap][i].update();
+                    }
+                }
+
+                // Revisar eventos
+                eHandler.checkEvent(); // <- esto es clave
+
+                // Actualizar reloj
+                reloj.actualizarTiempo();
+                reloj.derrota();
+            }
+
+            if(gameState == pauseState) {
+                // juego en pausa, no actualizar nada
+            }
+
+
         //pausa o reanudacion del juego
         if(gameState == playState){
 
@@ -159,6 +251,11 @@ public class gamePanel extends JPanel implements Runnable {
         if(gameState == titleState) {
             ui.draw(g2);
 
+        }
+        if (gameState == videoState) {
+            // Solo dejamos que se vea el JFXPanel
+            // No dibujamos nada del juego debajo
+            return;
         }
 
         // OTHERS

@@ -1,15 +1,22 @@
 package main;
 
+import entity.Entity;
+import varios.Dados;
+import varios.Reloj;
 import varios.Direccion;
+import entity.NPC_Aila;
+import entity.NPC_Panadera;
 
 import java.awt.*;
 
 public class EventHandler {
     gamePanel gp;
+
     EventRect eventRect [][][];
     private boolean llamo = false;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+
 
     public EventHandler (gamePanel gp) {
         this.gp = gp;
@@ -57,7 +64,24 @@ public class EventHandler {
             if (hit(0, 15, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda izquierda");
             }
-
+            //video
+            else if(hit(0, 21, 15, Direccion.Derecha)||hit(0, 21, 14, Direccion.Derecha)){
+                if(!gp.videoMostrado){
+                    gp.videoMostrado = true;
+                    gp.showVideo("pavon");
+                }
+            }
+            else if(hit(2, 8, 28, Direccion.Izquierda)) {
+                if (gp.npc[1][2] instanceof NPC_Aila) {
+                    NPC_Aila aila = (NPC_Aila) gp.npc[1][2];
+                    if (!gp.videoMostrado2 && aila.activarFinal) {
+                        gp.videoMostrado2 = true;
+                        gp.showVideo("monu");
+                        gp.ui.gameOver = true;
+                        gp.playSE(7);
+                }
+            }
+            }
             // Entrar tienda derecha
             else if (hit(0, 16, 14, Direccion.Arriba)) {
                 System.out.println("Entrar tienda derecha");
@@ -66,12 +90,6 @@ public class EventHandler {
             // Esquina
             else if (hit(0, 1, 15, Direccion.Arriba)) {
                 System.out.println("Esquina");
-            }
-
-            // Saliste de la tienda
-            else if (hit(0, 16, 15, Direccion.Abajo)) {
-                System.out.println("Saliste de la tienda");
-                mensajeLugar(gp.gameState);
             }
 
             // Interactuar con entorno
@@ -84,7 +102,7 @@ public class EventHandler {
             }
             // Teleport Planetario
             else if (hit(1, 37, 33, Direccion.Any)) {
-                    teleport(2, 4, 47);
+                    teleport(2, 4, 48);
             }
             // Teleport Planetario2
             else if (hit(2, 9, 28, Direccion.Any)) {
@@ -94,18 +112,12 @@ public class EventHandler {
             else if (hit(2, 40, 9, Direccion.Any)) {
                 teleport(2, 9, 28);
             }
-            else if (llamo == false) {
-                if (hit(0, 20, 14, Direccion.Derecha)) {
+            else if (hit(0, 20, 14, Direccion.Derecha)|| hit(0, 20, 15, Direccion.Derecha) ) {
+                if(llamo == false){
                     llamada(gp.gameState);
                     llamo = true;
-                    System.out.println("Aaaaaaaa");
+//                    System.out.println("Aaaaaaaa");
                 }
-                else if (hit(0, 20, 15, Direccion.Derecha)) {
-                    llamada(gp.gameState);
-                    llamo = true;
-                    System.out.println("Aaaaaaaa2");
-                }
-
             }
         }
     }
@@ -150,7 +162,6 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row) {
-
         gp.currentMap = map;
         gp.player.worldX = gp.tileSize * col;
         gp.player.worldY = gp.tileSize * row;
@@ -165,5 +176,5 @@ public class EventHandler {
         gp.playSE(6);
         gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
     }
-
 }
+
