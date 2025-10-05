@@ -42,38 +42,34 @@ public class NPC_Panadera extends Entity {
 
     // sobreescritura de la variable speak de entidades por personajes
     public void speak() {
-        if (gp.npc[0][1] instanceof NPC_Pavon) { // casteamos Pavon
-            NPC_Pavon pavon = (NPC_Pavon) gp.npc[0][1];
 
-            if (pavon.tieneCupon) {
-                dialogues[0] = "Uh... Que es eso? ";
-                dialogues[1] = "Un cupon de comida?";
-                dialogues[2] = "Felicidades.... supongo";
-                dialogues[3] = "Te ofrezco 3 opciones: \n Chipa, Medialunas o... \n Pan de Ajo!!";
-                dialogues[4] = ".";
-                dialogues[5] = ". .";
-                dialogues[6] = ". . .";
-                dialogues[7] = "Me equivoque, solo nos queda \n Pan de Ajo... \n Disfrutalo!!!";
-                gp.player.removeItem("vale por comida");
-                if(tienePan == false){
-                    gp.player.inventory.add(new OBJ_panDeAjo(gp));
-                    tienePan=true;
-                }
-
-            } else {
-                dialogues[0] = "Hola... en que te puedo ayudar?";
-                dialogues[1] = "Lo siento... \npero la unica comida que\nnos queda esta reservada";
-                dialogues[2] = "Si no tienes el cupon... \nEntonces vete... \nEspero clientes";
+        if (gp.tieneCupon) {
+            dialogues[0] = "Uh... Que es eso? ";
+            dialogues[1] = "Un cupon de comida?";
+            dialogues[2] = "Felicidades.... supongo";
+            dialogues[3] = "Te ofrezco 3 opciones: \n Chipa, Medialunas o... \n Pan de Ajo!!";
+            dialogues[4] = ".";
+            dialogues[5] = ". .";
+            dialogues[6] = ". . .";
+            dialogues[7] = "Me equivoque, solo nos queda \n Pan de Ajo... \n Disfrutalo!!!";
+            gp.player.removeItem("vale por comida");
+            if(tienePan == false){
+                gp.player.inventory.add(new OBJ_panDeAjo(gp));
+                tienePan=true;
             }
-        }
-        // Mostrar línea por línea
+
+        } else {
+            dialogues[0] = "Hola... en que te puedo ayudar?";
+            dialogues[1] = "Lo siento... \npero la unica comida que\nnos queda esta reservada";
+            dialogues[2] = "Si no tienes el cupon... \nEntonces vete... \nEspero clientes";
+        }// Mostrar línea por línea
+
         if (dialogues[dialogueIndexNPC] != null) {
             gp.ui.currentDialogue = dialogues[dialogueIndexNPC];
-             dialogueIndexNPC++;
+            dialogueIndexNPC++;
         } else {
             dialogoTerminado = true; // terminó todo el diálogo
             gp.ui.currentDialogue = "Ya te di el pan de ajo. Siguiente!!!"; // opcional
         }
     }
 }
-

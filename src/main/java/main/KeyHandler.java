@@ -41,9 +41,9 @@ public class KeyHandler implements KeyListener{
                 }
                 if(code == KeyEvent.VK_ENTER) {
                     if(gp.ui.commandNum == 0) {
-                        gp.reloj.reiniciarTiempo(); // ✅ Reinicia el tiempo al empezar juego
+                        gp.reloj.reiniciarTiempo();
                         gp.gameState = gp.playState;
-                        gp.gameState = gp.playState;
+
                     }
                     if(gp.ui.commandNum == 1) {
                         System.exit(0);
@@ -69,7 +69,6 @@ public class KeyHandler implements KeyListener{
                             gp.reloj.reiniciarTiempo();
                             gp.ui.titleScreenState = 1;
                             gp.playMusic(0);
-                            gp.videos.play("pavon");
                         }
                         if(gp.ui.commandNum == 1) {
                             System.out.println("Haz algunas cosas especificas de...");

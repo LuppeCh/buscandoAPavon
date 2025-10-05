@@ -43,7 +43,7 @@ public class gamePanel extends JPanel implements Runnable {
         public boolean videoMostrado = false; // para el video de salida de la tienda
         public boolean videoMostrado2 = false;
         public boolean estaPavon = true;
-
+        public boolean tieneCupon = false;
     // configuraciones del mundo
         public final int maxWorldCol = 50;
         public final int maxWorldRow = 50;

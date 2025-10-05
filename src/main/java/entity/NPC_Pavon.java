@@ -8,7 +8,7 @@ import varios.Direccion;
 import java.util.Random;
 
 public class NPC_Pavon extends Entity {
-    public boolean tieneCupon = false;
+
     public int dialogueIndexNPC = 0; // índice propio del NPC
     public NPC_Pavon(gamePanel gp) {
         super(gp);
@@ -36,7 +36,6 @@ public class NPC_Pavon extends Entity {
         dialogues[2] = "Me tengo que ir pero ten, \nde seguro te viene bien\n algo de comer";
         dialogues[3] = "Me voy a la galeria";
         dialogues[4] = "Buena suerte";
-//        tieneCupon = true;
     }
 
     public void setColisionArea() {
@@ -73,9 +72,9 @@ public class NPC_Pavon extends Entity {
     @Override
     public void speak() {
         // Dar el cupón solo la primera vez
-        if (!tieneCupon) {
+        if (!gp.tieneCupon) {
             gp.player.inventory.add(new OBJ_valePorComida(gp));
-            tieneCupon = true;
+            gp.tieneCupon = true;
         }
 
         // Mostrar la línea actual de diálogo del NPC
@@ -87,9 +86,6 @@ public class NPC_Pavon extends Entity {
             gp.ui.currentDialogue = "Ya te di el vale"; // o algún mensaje opcional
         }
     }
-
-
-
     //podemos personalizar las caracteristicas principales de cada personaje
 
 }
