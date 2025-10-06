@@ -115,6 +115,21 @@ public class gamePanel extends JPanel implements Runnable {
     public void showVideo(String key) {
         System.out.println("=== Mostrando video: " + key + " ===");
 
+        // En gamePanel.showVideo(String key)
+// ...
+        if (videos.currentPlayer != null) {
+            videos.currentPlayer.setOnEndOfMedia(() -> {
+                Platform.runLater(() -> {
+                    videos.stop();
+                    videos.getFXPanel().setVisible(false);
+
+                    // ESTABLECER EL ESTADO DE FIN DE JUEGO AQUÍ
+                    ui.gameOver = true; // <--- ¡AÑADIR ESTA LÍNEA AQUÍ!
+                    gameState = playState; // O podrías cambiar a gameState = gameOverState;
+                });
+            });
+        }
+
         // Pausar el juego mientras corre el video
         gameState = videoState;
 
