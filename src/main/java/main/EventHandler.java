@@ -70,14 +70,24 @@ public class EventHandler {
                 }
             }
             else if(hit(2, 8, 28, Direccion.Izquierda)) {
-                if (gp.npc[1][2] instanceof NPC_Aila && gp.npc[2][3]instanceof NPC_LupeMarciana) {
+                if (gp.npc[1][2] instanceof NPC_Aila && gp.npc[2][3] instanceof NPC_LupeMarciana) {
+
                     NPC_Aila aila = (NPC_Aila) gp.npc[1][2];
                     NPC_LupeMarciana marciana = (NPC_LupeMarciana) gp.npc[2][3];
+
+                    // 2. Verificar las condiciones para el final (banderas)
+                    // y asegurar que el video no se haya mostrado
                     if (!gp.videoMostrado2 && aila.activarFinal && marciana.tieneGPS) {
+
+                        // 3. Activar bandera y llamar al video
                         gp.videoMostrado2 = true;
                         gp.showVideo("monu");
-                        gp.ui.gameOver = true;
+
+                        // 4. Reproducir efecto de sonido
                         gp.playSE(7);
+
+                        // IMPORTANTE: NO pongas gp.ui.gameOver = true; aquí.
+                        // Esa línea debe ir en el callback del video (gamePanel.java)
                     }
                 }
             }
