@@ -115,25 +115,10 @@ public class gamePanel extends JPanel implements Runnable {
     public void showVideo(String key) {
         System.out.println("=== Mostrando video: " + key + " ===");
 
-        // En gamePanel.showVideo(String key)
-// ...
-        if (videos.currentPlayer != null) {
-            videos.currentPlayer.setOnEndOfMedia(() -> {
-                Platform.runLater(() -> {
-                    videos.stop();
-                    videos.getFXPanel().setVisible(false);
-
-                    // ESTABLECER EL ESTADO DE FIN DE JUEGO AQUÍ
-                    ui.gameOver = true; // <--- ¡AÑADIR ESTA LÍNEA AQUÍ!
-                    gameState = playState; // O podrías cambiar a gameState = gameOverState;
-                });
-            });
-        }
-
-        // Pausar el juego mientras corre el video
+        // 1. Pausar el juego (Estado de video)
         gameState = videoState;
 
-        // Hacer visible el panel de video
+        // 2. Hacer visible el panel de video
         videos.getFXPanel().setVisible(true);
         videos.getFXPanel().revalidate();
         videos.getFXPanel().repaint();
@@ -141,13 +126,22 @@ public class gamePanel extends JPanel implements Runnable {
         Platform.runLater(() -> {
             videos.play(key);
 
-            // Cuando termine, ocultar panel y volver a jugar
+            // 3. Configurar la acción al terminar el video
             if (videos.currentPlayer != null) {
                 videos.currentPlayer.setOnEndOfMedia(() -> {
                     Platform.runLater(() -> {
                         videos.stop();
                         videos.getFXPanel().setVisible(false);
-                        gameState = playState;
+
+                        // LÓGICA CLAVE: Si es el video final, activar la victoria/créditos
+                        if (key.equals("monu")) {
+                            // 🎶 Detener la música de fondo
+                            ui.gameFinished = true; // 🏆 Activar la pantalla de créditos/victoria
+                            gameState = playState;  // Volver a PlayState para que la UI se dibuje encima
+                        } else {
+                            // Para el primer video ("pavon") o cualquier otro:
+                            gameState = playState;
+                        }
                     });
                 });
             }
