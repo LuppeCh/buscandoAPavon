@@ -183,34 +183,48 @@ public class UI {
             }
         }
 
-        // -------------------
-        // Mensaje de victoria
-        // -------------------
+        // UI.java (Dentro del método draw)
+
+// -------------------
+// Mensaje de victoria (Créditos)
+// -------------------
         if (gameFinished) {
-            g2.setFont(arial_80B);
+
+            // 1. DIBUJAR FONDO NEGRO COMPLETO
+            g2.setColor(Color.black);
+            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+            // 2. CONFIGURAR FUENTE PRINCIPAL
+            g2.setFont(arial_80B); // 40f
             g2.setColor(Color.YELLOW);
 
+            // Calcular tiempo
             int min = gp.reloj.getMinutos();
             int seg = gp.reloj.getSegundos();
             int ms = gp.reloj.getMilisegundos();
             String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
 
-            String text = "Continuara!!";
-            int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            int x = gp.screenWidth / 2 - textLength / 2;
-            int y = gp.screenHeight / 2;
+            int y = gp.screenHeight / 2; // Punto central vertical
+
+            // 3. TEXTO: TIEMPO (Arriba)
+            String text = "Tu tiempo es: " + tiempoTexto;
+            int x = getXforCenteredText(text);
+            y = gp.screenHeight / 2 - (gp.tileSize * 3); // 3 Tiles arriba del centro
             g2.drawString(text, x, y);
 
-            text = "Has encontrado a Peivon!!";
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 - (gp.tileSize * 3);
+            // 4. TEXTO: CONTINUARÁ... (Centro)
+            text = "¡Continuará!";
+            x = getXforCenteredText(text);
+            y = gp.screenHeight / 2; // En el centro
             g2.drawString(text, x, y);
 
-            text = "Tu tiempo es: " + tiempoTexto;
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 - (gp.tileSize * 4);
+            // 5. TEXTO: CRÉDITOS (Abajo)
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F)); // Fuente más pequeña para los créditos
+            g2.setColor(Color.WHITE);
+
+            text = "Hecho por: Juli, Lupe, Ailu y Fifi.";
+            x = getXforCenteredText(text);
+            y = gp.screenHeight / 2 + (gp.tileSize * 4); // 4 Tiles abajo del centro
             g2.drawString(text, x, y);
 
             // NO detener el gameThread automáticamente
