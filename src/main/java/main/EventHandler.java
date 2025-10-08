@@ -187,7 +187,7 @@ public class EventHandler {
 
     public void llamada(int gameState) {
         gp.gameState = gameState;
-        gp.playSE(5);
+        gp.playSE(4);
         gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
     }
     public void mensajeGPS(int gameState) {
