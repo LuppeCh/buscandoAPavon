@@ -84,7 +84,7 @@ public class EventHandler {
                         gp.showVideo("monu");
 
                         // 4. Reproducir efecto de sonido
-                        gp.playSE(7);
+                        gp.playSE(6);
 
                         // IMPORTANTE: NO pongas gp.ui.gameOver = true; aquí.
                         // Esa línea debe ir en el callback del video (gamePanel.java)
@@ -187,7 +187,7 @@ public class EventHandler {
 
     public void llamada(int gameState) {
         gp.gameState = gameState;
-        gp.playSE(6);
+        gp.playSE(5);
         gp.ui.currentDialogue = "\"Volpin! Soy Sebas, \n secuestraron a Pavon... \n Resolve\"";
     }
     public void mensajeGPS(int gameState) {

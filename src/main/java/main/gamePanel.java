@@ -224,7 +224,7 @@ public class gamePanel extends JPanel implements Runnable {
             player.update();
 
             //Llamamos el metodo update del objeto NPC
-            
+
             for (int i = 0; i < npc[1].length; i++) {
                 if (npc[currentMap][i] != null) {
                     npc[currentMap][i].update();
@@ -234,10 +234,12 @@ public class gamePanel extends JPanel implements Runnable {
             reloj.actualizarTiempo();
             reloj.derrota();
         }
-        
+
         if(gameState == pauseState) {
             // si está en pauseState no hace nada
         }
+
+        checkMusic();
     }
 
 
@@ -333,18 +335,47 @@ public class gamePanel extends JPanel implements Runnable {
 
     }
 
+    // ⭐ MÉTODO DE CONTROL DE MÚSICA - Lógica por mapa
+    // gamePanel.java
+
+    public void checkMusic() {
+
+        // ⭐ CAMBIO CRÍTICO: Si el juego ha terminado, forzamos la detención
+        //    de toda la música (y solo MG.wav seguirá sonando si se llamó como playMusic)
+        if (ui.gameFinished) {
+            stopMusic();
+            return; // Salir de la función para no iniciar nada más
+        }
+
+        // Si el juego NO ha terminado, usamos la lógica de estados
+        if (gameState == playState || gameState == dialogueState || gameState == characterState) {
+
+            // MÚSICA CONDICIONAL POR MAPA
+            if (currentMap == 0) {
+                playMusic(7);
+            } else if (currentMap == 1) {
+                playMusic(8);
+            } else if (currentMap == 2) {
+                playMusic(9); // Fondo 3
+            } else {
+                stopMusic();
+            }
+        }
+        else {
+            // Estados donde queremos silencio total: Pause, Video, Game Over
+            stopMusic();
+        }
+    }
+
     public void playMusic(int i) {
-        sonido.setFile(i);
-        sonido.play();
-        sonido.loop();
+        sonido.playMusic(i); // ⭐ Llama a la nueva lógica de bucle
     }
 
     public void stopMusic() {
-        sonido.stop();
+        sonido.stopMusic(); // ⭐ Llama al método dedicado a detener música
     }
 
     public void playSE(int i) {
-        sonido.setFile(i);
-        sonido.play();
+        sonido.playSE(i); // ⭐ Llama a la nueva lógica de efecto de sonido (con corte de música)
     }
 }
