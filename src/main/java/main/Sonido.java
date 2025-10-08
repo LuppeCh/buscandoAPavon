@@ -19,8 +19,8 @@ public class Sonido {
         sonidoURL[1] = getClass().getResource("/sonido/Pierde.wav");
         sonidoURL[2] = getClass().getResource("/sonido/Victoria.wav");
         sonidoURL[3] = getClass().getResource("/sonido/Derrota.wav");
-        sonidoURL[4] = getClass().getResource("/sonido/cursor.wav");
-        sonidoURL[5] = getClass().getResource("/sonido/aiaiai.wav");
+        sonidoURL[5] = getClass().getResource("/sonido/cursor.wav");
+        sonidoURL[4] = getClass().getResource("/sonido/aiaiai.wav");
         sonidoURL[6] = getClass().getResource("/sonido/MG.wav");
 
 
