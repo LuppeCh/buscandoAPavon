@@ -69,6 +69,10 @@ public class VideosSwing {
         Platform.runLater(() -> {  // <- clave, todo esto corre en hilo de JavaFX
             StackPane root = new StackPane(mediaView);
             Scene scene = new Scene(root, fxPanel.getWidth(), fxPanel.getHeight());
+
+            mediaView.fitWidthProperty().bind(scene.widthProperty());
+            mediaView.fitHeightProperty().bind(scene.heightProperty());
+
             fxPanel.setScene(scene);
             currentPlayer.play();
         });
