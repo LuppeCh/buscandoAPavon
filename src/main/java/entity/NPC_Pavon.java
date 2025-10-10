@@ -1,7 +1,6 @@
 package entity;
 
 import main.gamePanel;
-import object.OBJ_panDeAjo;
 import object.OBJ_valePorComida;
 import varios.Direccion;
 

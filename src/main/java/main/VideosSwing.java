@@ -82,18 +82,6 @@ public class VideosSwing {
     // Modificaciones clave para evitar que se trabe el juego
     // ----------------------------
 
-    public void pause() {
-        if (currentPlayer != null) {
-            Platform.runLater(() -> currentPlayer.pause()); // <- aquí
-        }
-    }
-
-    public void resume() {
-        if (currentPlayer != null) {
-            Platform.runLater(() -> currentPlayer.play()); // <- aquí
-        }
-    }
-
     public void stop() {
         if (currentPlayer != null) {
             Platform.runLater(() -> currentPlayer.stop()); // <- aquí

@@ -3,7 +3,6 @@ package entity;
 import main.gamePanel;
 import varios.Direccion;
 import varios.Pelea;
-import entity.NPC_Panadera;
 
 public class NPC_Aila extends Entity {
     public boolean dialogoTerminado = false;
@@ -15,7 +14,6 @@ public class NPC_Aila extends Entity {
         super(gp);
         direction = Direccion.Abajo;
         getImage();
-        setDialogue();
         setColisionArea();
     }
 
@@ -24,9 +22,6 @@ public class NPC_Aila extends Entity {
         down2 = setup("/NPC_Aila/Aila");
     }
 
-    public void setDialogue() {
-        // Opcional: inicializar array dialogues[] si no lo hiciste en Entity
-    }
 
     public void setColisionArea() {
         solidAreaDefaultX = 0;
@@ -45,9 +40,9 @@ public class NPC_Aila extends Entity {
 
         dialogues[0] = "Uh? Que si conozco a quien?";
         dialogues[1] = "Peivon?";
-        dialogues[2] = "Peivon? .";
-        dialogues[3] = "Peivon? . .";
-        dialogues[4] = "Peivon? . . .";
+        dialogues[2] = ".";
+        dialogues[3] = ". .";
+        dialogues[4] = ". . .";
         dialogues[5] = "Que nombre curioso...";
         dialogues[6] = "la verdad es que no lo he visto";
         dialogues[7] = "*El telefono de Aila suena \n y ella lo guarda rapido*";
@@ -55,7 +50,7 @@ public class NPC_Aila extends Entity {
         dialogues[9] = "Vete de mi tienda!";
         dialogues[10] = "*Te parece sospechoso pero no \n encontras nada raro*";
         dialogues[11] = "*Hasta que antes de irte notaste\n en uno de los espejos de la tienda\n que la chica no tiene reflejo*";
-        dialogues[12] = "*es una vampira...*";
+        dialogues[12] = "*es una vampira!*";
         dialogues[13] = "Ah, con que ya lo descubriste";
 
         // Mostramos el diálogo actual

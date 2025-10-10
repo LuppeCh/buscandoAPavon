@@ -2,10 +2,10 @@ package entity;
 
 import main.gamePanel;
 import object.OBJ_gpsNave;
-import object.OBJ_valePorComida;
+
 import varios.Direccion;
 
-import java.util.Random;
+
 
 public class NPC_LupeMarciana extends Entity{
     public boolean tieneGPS = false;
@@ -14,7 +14,7 @@ public class NPC_LupeMarciana extends Entity{
         super(gp);
         direction = Direccion.Abajo;
         getImage();
-        setDialogue();
+
         setColisionArea();
     }
     public void getImage() {
@@ -22,9 +22,7 @@ public class NPC_LupeMarciana extends Entity{
         down2 = setup("/NPC_LupeMarciana/lupemarciana2");
 
     }
-    public void setDialogue() {
 
-    }
 
     public void setColisionArea() {
         solidAreaDefaultX = 0;

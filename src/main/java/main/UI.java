@@ -1,8 +1,6 @@
 package main;
 
 
-import entity.Player;
-
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,12 +71,6 @@ public class UI {
 
     //Dialogo
     public String currentDialogue = "";
-    public void setDialogue(String dialogue){
-        this.currentDialogue = dialogue;
-    }
-//    // Tiempo de juego
-//    Reloj reloj = new Reloj(gp, this);
-    //Llamar a derrota
     public boolean gameOver = false;
     //variables cursor
     public int slotCol = 0;
@@ -115,13 +107,6 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.white);
 
-//        //Llamamos los tiempos del juego
-//        reloj.actualizarTiempo();
-//        int min = reloj.getMinutos();
-//        int seg = reloj.getSegundos();
-//        int ms = reloj.getMilisegundos();
-
-//        String tiempoTexto = String.format("%2d:%2d:%03d", min, seg, ms);
 
         // TITLE STATE
         if(gp.gameState == gp.titleState) {
@@ -231,41 +216,7 @@ public class UI {
         }
 
         // -------------------
-        // Mensaje de derrota
-        // -------------------
-        if (gameOver) {
-            g2.setColor(Color.black);
-            g2.fillRect(0,0, gp.screenWidth, gp.screenHeight);
 
-            g2.setFont(arial_80B);
-            g2.setColor(Color.RED);
-
-
-            String text = "ir al monumento de la bandera...";
-            int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            int x = gp.screenWidth / 2 - textLength / 2;
-            int y = gp.screenHeight / 2;
-            g2.drawString(text, x, y);
-
-            text = "Luego de revisar el GPS e ";
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 - (gp.tileSize * 2);
-            g2.drawString(text, x, y);
-
-            text = "Continuará...";
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 - (gp.tileSize * 4);
-            g2.drawString(text, x, y);
-
-            text = "Hecho por: Juli, Lupe, Ailu y Fifi.";
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 + (gp.tileSize * 4);
-            g2.drawString(text, x, y);
-            // NO detener el gameThread automáticamente
-        }
 
     }
     //dibujo de la pantalla de dialogo
@@ -400,14 +351,6 @@ public class UI {
 
         // volver a jugar
         g2.setFont(g2.getFont().deriveFont(30f));
-//        text = "Volver a jugar";
-//        x = getXforCenteredText(text);
-//        y += gp.tileSize * 4;
-//        g2.drawString(text, x, y);
-//
-//        if(commandNum == 0){
-//            g2.drawString(">", x-40, y);
-//        }
 
         //Volver al titulo principal
         text = "Salir";
