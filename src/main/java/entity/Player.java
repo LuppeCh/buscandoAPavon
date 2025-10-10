@@ -1,9 +1,7 @@
 package entity;
 import main.gamePanel;
 import main.KeyHandler;
-import object.OBJ_panDeAjo;
 import object.OBJ_sube;
-import object.OBJ_valePorComida;
 import varios.Direccion;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -49,8 +47,6 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        // worldX = 12 * gp.tileSize; // posicion del Player
-        // worldY = 13 * gp.tileSize;
         worldX = 47 * gp.tileSize; //posicion del Player
         worldY = 4 * gp.tileSize;
         speed = 2;
@@ -185,14 +181,6 @@ public class Player extends Entity {
         }
     }
 
-    public boolean hasItem(String itemName) {
-        for (Entity item : inventory) {
-            if (item != null && item.name.equalsIgnoreCase(itemName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void removeItem(String itemName) {
         for (int i = 0; i < inventory.size(); i++) {

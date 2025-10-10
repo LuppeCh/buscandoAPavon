@@ -1,10 +1,7 @@
 package main;
 
-import varios.Reloj;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
 public class KeyHandler implements KeyListener{
 
@@ -212,13 +209,7 @@ public class KeyHandler implements KeyListener{
                 gp.reloj.reiniciarTiempo();
                 gp.gameState = gp.playState;
                 System.exit(0);
-//                gp.volverAJugar();
             }
-//            else if(gp.ui.commandNum == 1) {
-//                gp.gameState = gp.titleState;
-//                gp.reloj.reiniciarTiempo();
-//                gp.volverAJugar();// nose si es necesario aca... porque esta opcion es para volver al menu principal.. y si ya volviste al menu principal, cuando le des a volver a jugarya se van a resetear todo
-//            }
         }
     }
 

@@ -8,23 +8,14 @@ import javax.swing.JFrame;
 
 // JavaFX
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 // Swing
 import javax.swing.JPanel;
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
 
 // AWT
 import java.awt.*;
 
 // Otros
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -185,12 +176,6 @@ public class gamePanel extends JPanel implements Runnable {
             }
     }
 
-    public void volverAJugar() {
-        player.setDefaultValues();
-        reloj.reiniciarTiempo();
-        aSetter.setObject();
-        aSetter.setNPC();
-    }
 
     public void update() {
             if(gameState == playState){

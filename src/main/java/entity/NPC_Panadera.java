@@ -4,8 +4,6 @@ import main.gamePanel;
     import object.OBJ_panDeAjo;
     import varios.Direccion;
 
-    import java.util.Random;
-
 
 public class NPC_Panadera extends Entity {
     public boolean tienePan = false;
@@ -15,7 +13,6 @@ public class NPC_Panadera extends Entity {
         super(gp);
         direction = Direccion.Abajo;
         getImage();
-        setDialogue();
         setColisionArea();
     }
 
@@ -24,9 +21,6 @@ public class NPC_Panadera extends Entity {
         down2 = setup("/NPC_Panadera/Panadera");
     }
 
-    public void setDialogue() {
-
-    }
 
     public void setColisionArea() {
         solidAreaDefaultX = 0;
